@@ -25,7 +25,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--heading-font-primary);
 }
 
-/* تطبيق خط النص الأساسي */
 body {
     background-color: var(--background-color);
     color: var(--text-color);
@@ -33,7 +32,6 @@ body {
     font-family: var(--body-font-secondary);
 }
 
-/* تطبيق الخط على عناوين البطاقات */
 .product-card h3,
 .collection-card h3,
 .section-title,
@@ -43,7 +41,6 @@ body {
     font-family: var(--heading-font-primary);
 }
 
-/* تطبيق خط النص على المحتوى */
 p, 
 .description,
 .nav-links a,
@@ -53,7 +50,6 @@ textarea {
     font-family: var(--body-font-secondary);
 }
 
-/* Header Styles */
 header {
     background-color: var(--white);
     padding: 1rem 2rem;
@@ -691,7 +687,6 @@ footer {
     }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .nav-links {
         display: none;
@@ -718,7 +713,6 @@ footer {
     }
 }
 
-/* Loader Styles */
 .loader-wrapper {
     position: fixed;
     top: 0;
