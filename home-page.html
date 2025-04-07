@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scentify - Luxury Perfumes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="loader-wrapper">
+        <div class="loader">
+            <div class="loader-content">
+                <img src="D:\logo.jpg" alt="Scentify Logo" class="loader-logo">
+                <div class="loader-spinner"></div>
+                <div class="loader-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img href="index.html" src="D:\logo.png"  alt="Scentify Logo" class="header-logo">
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for perfumes...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="user-actions">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Discover Your Signature Scent</h1>
+                <p>Explore our curated collection of luxury fragrances</p>
+                <div class="hero-buttons">
+                    <button class="cta-button" onclick="window.location.href='products.html'">Shop Now</button>
+                    <button class="secondary-button" onclick="window.location.href='#featured'">View Categories</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured" id="featured">
+            <h2>Featured Collections</h2>
+            <div class="collections-grid">
+                <div class="collection-card">
+                    <img src="C:\ecommerce-website\photo\men.jpg" alt="Men's Collection">
+                    <h3>Men's Collection</h3>
+                    <p>Discover our luxury fragrances for men</p>
+                    <a href="products.html?category=mens" class="collection-link">Shop Now <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="collection-card">
+                    <img src="C:\ecommerce-website\photo\women.jpg" alt="Women's Collection">
+                    <h3>Women's Collection</h3>
+                    <p>Discover our luxury fragrances for women</p>
+                    <a href="products.html?category=womens" class="collection-link">Shop Now <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="collection-card">
+                    <img src="C:\ecommerce-website\photo\lux.jpg" alt="Luxury Collection">
+                    <h3>Luxury Collection</h3>
+                    <p>Discover our premium luxury collection</p>
+                    <a href="products.html?category=luxury" class="collection-link">Shop Now <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="new-arrivals">
+            <h2>New Arrivals</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <img src="https://via.placeholder.com/300x300" alt="Luxury Perfume">
+                    <h3>Royal Oud</h3>
+                    <p class="description">Rich and luxurious oriental fragrance</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <div class="price">$199.99</div>
+                    <button class="add-to-cart" onclick="window.location.href='products.html?product=royal-oud'">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <img src="https://via.placeholder.com/300x300" alt="Luxury Perfume">
+                    <h3>Vanilla Dreams</h3>
+                    <p class="description">Sweet and comforting vanilla-based fragrance</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(5.0)</span>
+                    </div>
+                    <div class="price">$179.99</div>
+                    <button class="add-to-cart" onclick="window.location.href='products.html?product=vanilla-dreams'">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <img src="https://via.placeholder.com/300x300" alt="Luxury Perfume">
+                    <h3>Spring Blossom</h3>
+                    <p class="description">Fresh and floral spring-inspired scent</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <div class="price">$159.99</div>
+                    <button class="add-to-cart" onclick="window.location.href='products.html?product=spring-blossom'">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="best-sellers">
+            <h2>Best Sellers</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-badge">Best Seller</div>
+                    <img src="https://via.placeholder.com/300x300" alt="Luxury Perfume">
+                    <h3>Kingdom of Fragrances</h3>
+                    <p class="description">Rich oriental fragrance with a blend of spices and woods</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(5.0)</span>
+                    </div>
+                    <div class="price">$249.99</div>
+                    <button class="add-to-cart" onclick="window.location.href='products.html?product=kingdom-of-fragrances'">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">Best Seller</div>
+                    <img src="https://via.placeholder.com/300x300" alt="Luxury Perfume">
+                    <h3>Rose Essence</h3>
+                    <p class="description">Delicate feminine fragrance with notes of rose and jasmine</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <div class="price">$179.99</div>
+                    <button class="add-to-cart" onclick="window.location.href='products.html?product=rose-essence'">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">Best Seller</div>
+                    <img src="https://via.placeholder.com/300x300" alt="Luxury Perfume">
+                    <h3>Ocean Breeze</h3>
+                    <p class="description">Refreshing fragrance with citrus and salty notes</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(4.8)</span>
+                    </div>
+                    <div class="price">$159.99</div>
+                    <button class="add-to-cart" onclick="window.location.href='products.html?product=ocean-breeze'">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <h2>Why Choose Scentify</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <i class="fas fa-truck"></i>
+                    <h3>Free Shipping</h3>
+                    <p>Free shipping on orders over $50</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-undo"></i>
+                    <h3>Easy Returns</h3>
+                    <p>30-day hassle-free returns</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-lock"></i>
+                    <h3>Secure Payment</h3>
+                    <p>100% secure payment processing</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer support</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="newsletter">
+            <div class="newsletter-content">
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Get the latest updates and exclusive offers</p>
+                <form class="subscribe-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="products.html?category=mens">Men's Perfumes</a></li>
+                    <li><a href="products.html?category=womens">Women's Perfumes</a></li>
+                    <li><a href="products.html?category=luxury">Luxury Collection</a></li>
+                    <li><a href="products.html?category=new">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Story</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@scentify.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Perfume Street, NY</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Scentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button class="chatbot-button">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
