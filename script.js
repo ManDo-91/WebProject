@@ -1,15 +1,13 @@
-// Hide loader after page loads
-window.addEventListener('load', () => {
-    const loader = document.querySelector('.loader-wrapper');
-    setTimeout(() => {
-        loader.classList.add('fade-out');
-        setTimeout(() => {
-            loader.style.display = 'none';
-        }, 500);
-    }, 2000);
-});
-
-// Initialize cart variables
+window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.body.classList.remove('loading');
+                document.querySelector('.loader-wrapper').style.opacity = '0';
+                
+                setTimeout(function() {
+                    document.querySelector('.loader-wrapper').style.display = 'none';
+                }, 500);
+            }, 3000);
+        });
 let cartCount = 0;
 const cartCountElement = document.querySelector('.cart-count');
 
