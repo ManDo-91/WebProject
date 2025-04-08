@@ -119,21 +119,27 @@ nav {
     color: var(--secondary-color);
 }
 
-.user-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
 }
 
-.user-actions a {
-    color: var(--text-color);
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
+.cart-icon a:visited{
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
 }
 
-.user-actions a:hover {
-    color: var(--secondary-color);
+.cart-icon a:active{
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
 }
+
 
 .cart {
     position: relative;
