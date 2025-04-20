@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details - Scentify</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="cart.js"></script>
+  <style>
+    .product-viewer {
+      max-width: 1400px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+      background: #f8f9fa;
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .product-images {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1.5rem;
+    }
+
+    .thumbnail-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .thumbnail {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    .thumbnail:hover, .thumbnail.active {
+      border-color: var(--primary-color);
+      transform: translateX(4px);
+    }
+
+    .main-image {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #f8f9fa;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-image:hover {
+      transform: scale(1.02);
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1rem 0;
+    }
+
+    .product-title {
+      font-size: 2.5rem;
+      color: #333;
+      margin: 0;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .product-badges {
+      display: flex;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .badge {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .badge.new {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .badge.best-seller {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ffc107;
+      font-size: 1.1rem;
+    }
+
+    .product-rating span {
+      color: #666;
+      font-size: 0.95rem;
+      margin-left: 0.5rem;
+    }
+
+    .product-price {
+      font-size: 2rem;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .product-description {
+      color: #666;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      margin: 1.5rem 0;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .add-to-cart {
+      flex: 1;
+      padding: 1.25rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .add-to-cart:hover {
+      background: var(--hover-color);
+      transform: translateY(-2px);
+    }
+
+    .wishlist {
+      padding: 1.25rem;
+      background: none;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+    }
+
+    .wishlist:hover {
+      background: #f0f4f8;
+      transform: translateY(-2px);
+    }
+
+    .product-specs {
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid #eee;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f0f4f8;
+    }
+
+    .spec-label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .spec-value {
+      color: #333;
+      font-weight: 600;
+    }
+
+    .product-suggestions {
+      max-width: 1400px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .suggestions-title {
+      font-size: 2rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .suggestions-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--primary-color);
+    }
+
+    .suggestions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 992px) {
+      .product-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .main-image {
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .product-viewer {
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .product-container {
+        padding: 1.5rem;
+      }
+
+      .product-images {
+        grid-template-columns: 1fr;
+      }
+
+      .thumbnail-container {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        order: 2;
+      }
+
+      .thumbnail {
+        width: 80px;
+        height: 80px;
+      }
+
+      .main-image {
+        height: 350px;
+        order: 1;
+      }
+
+      .product-title {
+        font-size: 2rem;
+      }
+
+      .product-price {
+        font-size: 1.75rem;
+      }
+
+      .product-actions {
+        flex-direction: column;
+      }
+
+      .wishlist {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <a href="index.html">
+          <img src="images/logo.png" alt="Scentify Logo" class="header-logo">
+        </a>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search for perfumes...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-icons">
+        <div class="login-icon">
+          <a href="login.html" id="login-icon">
+            <i class="fas fa-user"></i>
+          </a>
+        </div>
+        <div class="cart-icon">
+          <a href="cart.html" id="icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="product-viewer">
+    <div class="product-container" id="product-container">
+      <!-- Product content will be dynamically loaded here -->
+    </div>
+  </main>
+
+  <section class="product-suggestions">
+    <h2 class="suggestions-title">You May Also Like</h2>
+    <div class="suggestions-grid" id="suggestions-grid">
+      <!-- Suggestions will be loaded here -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="products.html?category=mens">Men's Perfumes</a></li>
+          <li><a href="products.html?category=womens">Women's Perfumes</a></li>
+          <li><a href="products.html?category=luxury">Luxury Collection</a></li>
+          <li><a href="products.html?category=new">New Arrivals</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns & Exchanges</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <ul>
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> info@scentify.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Perfume Street, NY</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Scentify. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Product data
+    const products = {
+      'royal-oud': {
+        id: 'royal-oud',
+        name: 'Royal Oud',
+        price: 999.99,
+        category: "Men's Collection",
+        image: 'assets/images/royal-oud.jpg',
+        images: [
+          'images/royal-oud.jpg',
+          'images/royal-oud-2.jpg',
+          'images/royal-oud-3.jpg'
+        ],
+        description: 'A rich and luxurious oriental fragrance that combines rare oud wood with exotic spices.',
+        rating: 4.8,
+        reviews: 128,
+        specs: {
+          'Fragrance Family': 'Oriental Woody',
+          'Concentration': 'Eau de Parfum',
+          'Size': '100ml'
+        }
+      },
+      'ocean-breeze': {
+        id: 'ocean-breeze',
+        name: 'Ocean Breeze',
+        price: 749.99,
+        category: "Unisex Collection",
+        image: 'images/ocean-breeze.jpg',
+        images: [
+          'images/ocean-breeze.jpg',
+          'images/ocean-breeze-2.jpg',
+          'images/ocean-breeze-3.jpg'
+        ],
+        description: 'A fresh and invigorating aquatic fragrance that captures the essence of the ocean.',
+        rating: 4.6,
+        reviews: 95,
+        specs: {
+          'Fragrance Family': 'Aquatic Fresh',
+          'Concentration': 'Eau de Toilette',
+          'Size': '100ml'
+        }
+      },
+      'vanilla-dreams': {
+        id: 'vanilla-dreams',
+        name: 'Vanilla Dreams',
+        price: 799.99,
+        category: "Women's Collection",
+        image: 'images/vanilla-dreams.jpg',
+        images: [
+          'images/vanilla-dreams.jpg',
+          'images/vanilla-dreams-2.jpg',
+          'images/vanilla-dreams-3.jpg'
+        ],
+        description: 'A sweet and comforting vanilla-based fragrance with hints of warm amber and musk.',
+        rating: 4.7,
+        reviews: 112,
+        specs: {
+          'Fragrance Family': 'Oriental Vanilla',
+          'Concentration': 'Eau de Parfum',
+          'Size': '100ml'
+        }
+      },
+      'kingdom-of-fragrances': {
+        id: 'kingdom-of-fragrances',
+        name: 'Kingdom of Fragrances',
+        price: 1199.99,
+        category: 'Luxury Collection',
+        image: 'assets/images/royal-oud.jpg',
+        images: [
+          'images/kingdom.jpg',
+          'images/kingdom-2.jpg',
+          'images/kingdom-3.jpg'
+        ],
+        description: 'A majestic blend of precious ingredients creating an unforgettable signature scent.',
+        rating: 4.9,
+        reviews: 156,
+        specs: {
+          'Fragrance Family': 'Oriental Spicy',
+          'Concentration': 'Parfum',
+          'Size': '100ml'
+        }
+      }
+    };
+
+    // Function to get random suggestions
+    function getRandomSuggestions(currentProductId, count = 4) {
+      const productIds = Object.keys(products).filter(id => id !== currentProductId);
+      const shuffled = productIds.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count).map(id => products[id]);
+    }
+
+    // Function to display suggestions
+    function displaySuggestions(currentProductId) {
+      const suggestions = getRandomSuggestions(currentProductId);
+      const suggestionsGrid = document.getElementById('suggestions-grid');
+      
+      suggestionsGrid.innerHTML = suggestions.map(product => `
+        <div class="suggestion-card">
+          <a href="productsviewer.html?id=${product.id}">
+            <img src="${product.image}" alt="${product.name}" class="suggestion-image">
+            <div class="suggestion-details">
+              <h3 class="suggestion-name">${product.name}</h3>
+              <div class="suggestion-price">EGP ${product.price.toFixed(2)}</div>
+              <div class="suggestion-rating">
+                ${Array(5).fill().map((_, i) => 
+                  `<i class="fas fa-star${i < Math.floor(product.rating) ? '' : 
+                    i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : ''}"></i>`
+                ).join('')}
+                <span>(${product.reviews})</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // Update displayProductDetails function
+    function displayProductDetails() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+      const product = products[productId];
+
+      if (!product) {
+        document.getElementById('product-container').innerHTML = '<h2>Product not found</h2>';
+        return;
+      }
+
+      document.title = `${product.name} - Scentify`;
+      
+      const productContainer = document.getElementById('product-container');
+      productContainer.innerHTML = `
+        <div class="product-images">
+          <div class="thumbnail-container">
+            ${product.images.map((img, index) => `
+              <img src="${img}" alt="${product.name} - View ${index + 1}" 
+                   class="thumbnail ${index === 0 ? 'active' : ''}"
+                   onclick="changeMainImage('${img}')">
+            `).join('')}
+          </div>
+          <img src="${product.image}" alt="${product.name}" class="main-image" id="main-image">
+        </div>
+        <div class="product-details">
+          <h1 class="product-title">${product.name}</h1>
+          <div class="product-badges">
+            <span class="badge new">New</span>
+            <span class="badge best-seller">Best Seller</span>
+          </div>
+          <div class="product-rating">
+            ${Array(5).fill().map((_, i) => 
+              `<i class="fas fa-star${i < Math.floor(product.rating) ? '' : 
+                i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : ''}"></i>`
+            ).join('')}
+            <span>(${product.reviews} reviews)</span>
+          </div>
+          <div class="product-price">EGP ${product.price.toFixed(2)}</div>
+          <p class="product-description">${product.description}</p>
+          <div class="product-actions">
+            <button class="add-to-cart" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
+              Add to Cart
+            </button>
+            <button class="wishlist">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+          <div class="product-specs">
+            ${Object.entries(product.specs).map(([label, value]) => `
+              <div class="spec-item">
+                <span class="spec-label">${label}</span>
+                <span class="spec-value">${value}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      // Display suggestions
+      displaySuggestions(productId);
+    }
+
+    // Change main image when thumbnail is clicked
+    function changeMainImage(src) {
+      document.getElementById('main-image').src = src;
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+        if (thumb.src === src) {
+          thumb.classList.add('active');
+        }
+      });
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', displayProductDetails);
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story - Scentify</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/images/about-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 4rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .story-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+
+        .story-image {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-content {
+            padding: 2rem;
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .values-section {
+            background: #f8f9fa;
+            padding: 4rem 2rem;
+            margin: 4rem -2rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .team-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .team-member h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            color: #666;
+            font-style: italic;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/images/cta-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            margin: 4rem -2rem -4rem;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 992px) {
+            .story-section {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/images/logo.png" alt="Scentify Logo" class="header-logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon">
+                <a href="cart.html" id="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Our Story</h1>
+                <p>Crafting memorable fragrances since 2010</p>
+            </div>
+        </section>
+
+        <div class="about-main">
+            <section class="story-section">
+                <div class="story-image">
+                    <img src="assets/images/store-front.jpg" alt="Scentify Store Front">
+                </div>
+                <div class="story-content">
+                    <h2>The Beginning</h2>
+                    <p>Founded in 2010, Scentify began as a small boutique in Cairo with a simple mission: to bring the world's finest fragrances to discerning customers. Our founder, Sarah Ahmed, combined her passion for perfumery with years of experience in the luxury retail industry to create a unique shopping experience.</p>
+                    <p>What started as a curated collection of niche fragrances has grown into Egypt's premier destination for luxury perfumes, with a carefully selected range of both classic and contemporary scents from around the world.</p>
+                </div>
+            </section>
+
+            <section class="story-section">
+                <div class="story-content">
+                    <h2>Our Philosophy</h2>
+                    <p>At Scentify, we believe that fragrance is more than just a scent – it's an expression of personality, a trigger for memories, and a source of confidence. We're committed to helping our customers find their signature scent through personalized consultations and an expertly curated collection.</p>
+                    <p>Our team of fragrance specialists undergoes rigorous training to understand not just the notes and compositions of our perfumes, but also the art of matching the right scent to each individual's personality and preferences.</p>
+                </div>
+                <div class="story-image">
+                    <img src="assets/images/perfume-collection.jpg" alt="Luxury Perfume Collection">
+                </div>
+            </section>
+
+            <section class="values-section">
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-gem"></i>
+                        <h3>Quality</h3>
+                        <p>We partner directly with renowned perfume houses and guarantee the authenticity of every fragrance we sell.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Passion</h3>
+                        <p>Our love for fragrances drives us to continuously explore and bring you the world's finest scents.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Excellence</h3>
+                        <p>From product selection to customer service, we strive for excellence in everything we do.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <h2>Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="assets/images/team-1.jpg" alt="Sarah Ahmed">
+                        <h3>Sarah Ahmed</h3>
+                        <p>Founder & CEO</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="assets/images/team-2.jpg" alt="Mohamed Hassan">
+                        <h3>Mohamed Hassan</h3>
+                        <p>Head of Operations</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="assets/images/team-3.jpg" alt="Nour El-Din">
+                        <h3>Nour El-Din</h3>
+                        <p>Lead Fragrance Specialist</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="assets/images/team-4.jpg" alt="Laila Kamel">
+                        <h3>Laila Kamel</h3>
+                        <p>Customer Experience Manager</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2>Experience the Difference</h2>
+                    <p>Visit our store or shop online to discover your perfect scent. Our fragrance specialists are here to guide you on your journey.</p>
+                    <a href="products.html" class="cta-button">Shop Now</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="products.html?category=mens">Men's Perfumes</a></li>
+                    <li><a href="products.html?category=womens">Women's Perfumes</a></li>
+                    <li><a href="products.html?category=luxury">Luxury Collection</a></li>
+                    <li><a href="products.html?category=new">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="returns.html">Returns & Exchanges</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Story</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Scentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html> 

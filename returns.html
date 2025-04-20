@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Returns & Exchanges - Scentify</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .returns-main {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .returns-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .returns-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .returns-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .returns-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .returns-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .returns-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .returns-section h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .returns-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .returns-steps {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .returns-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h3 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .conditions-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .conditions-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .conditions-list li:before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .returns-note {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .returns-note i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .returns-step {
+                flex-direction: column;
+            }
+
+            .step-number {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/images/logo.png" alt="Scentify Logo" class="header-logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon">
+                <a href="cart.html" id="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="returns-main">
+        <div class="returns-header">
+            <h1>Returns & Exchanges</h1>
+            <p>Our hassle-free return and exchange policy</p>
+        </div>
+
+        <div class="returns-content">
+            <div class="returns-section">
+                <h2>Return Policy Overview</h2>
+                <p>We want you to be completely satisfied with your purchase. If you're not happy with your order, we accept returns within 30 days of delivery for a full refund or exchange.</p>
+            </div>
+
+            <div class="returns-section">
+                <h2>How to Return</h2>
+                <ol class="returns-steps">
+                    <li class="returns-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Initiate Your Return</h3>
+                            <p>Log into your account and go to your order history. Select the item you wish to return and follow the prompts to generate a return label.</p>
+                        </div>
+                    </li>
+                    <li class="returns-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Package Your Item</h3>
+                            <p>Place the item in its original packaging with all tags attached. Include the return form in your package.</p>
+                        </div>
+                    </li>
+                    <li class="returns-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Ship Your Return</h3>
+                            <p>Attach the provided return label to your package and drop it off at any authorized shipping location.</p>
+                        </div>
+                    </li>
+                    <li class="returns-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Receive Your Refund</h3>
+                            <p>Once we receive and process your return, we'll issue a refund to your original payment method within 5-7 business days.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="returns-section">
+                <h2>Return Conditions</h2>
+                <ul class="conditions-list">
+                    <li>Items must be unused, unworn, and in their original packaging with all tags attached</li>
+                    <li>Returns must be initiated within 30 days of delivery</li>
+                    <li>Sale items are final sale and cannot be returned</li>
+                    <li>Shipping costs are non-refundable</li>
+                    <li>Items marked as "Final Sale" cannot be returned or exchanged</li>
+                </ul>
+            </div>
+
+            <div class="returns-section">
+                <h2>Exchanges</h2>
+                <p>If you'd like to exchange an item for a different size or fragrance, please follow the same return process and place a new order for the desired item. This ensures you get your replacement as quickly as possible.</p>
+            </div>
+
+            <div class="returns-section">
+                <h2>Damaged or Defective Items</h2>
+                <p>If you receive a damaged or defective item, please contact our customer service team immediately. We'll provide a prepaid return label and process your refund or replacement as soon as possible.</p>
+            </div>
+
+            <div class="returns-note">
+                <i class="fas fa-info-circle"></i>
+                <strong>Please Note:</strong> For hygiene reasons, we cannot accept returns on opened fragrances unless they are damaged or defective.
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="products.html?category=mens">Men's Perfumes</a></li>
+                    <li><a href="products.html?category=womens">Women's Perfumes</a></li>
+                    <li><a href="products.html?category=luxury">Luxury Collection</a></li>
+                    <li><a href="products.html?category=new">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="returns.html">Returns & Exchanges</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Story</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Scentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html> 
