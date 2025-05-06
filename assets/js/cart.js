@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartCount = document.querySelector('.cart-count');
     const checkoutButton = document.querySelector('.checkout-button');
 
-    // Global cart variable
+    // Global cart variable and functions
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let shippingCost = 50; // EGP - Default shipping cost
+    const SHIPPING_COST = 50; // EGP - Default shipping cost
 
     // Global functions
     function updateCartCount() {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculate cart totals
     function calculateTotals() {
         const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-        const shipping = subtotal > 0 ? shippingCost : 0;
+        const shipping = subtotal > 0 ? SHIPPING_COST : 0;
         const total = subtotal + shipping;
         
         return {
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update shipping cost
     function updateShippingCost(newCost) {
-        shippingCost = newCost;
+        SHIPPING_COST = newCost;
         displayCartItems();
     }
 
