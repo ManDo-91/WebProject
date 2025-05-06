@@ -1,13 +1,10 @@
 window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.body.classList.remove('loading');
-                document.querySelector('.loader-wrapper').style.opacity = '0';
-                
-                setTimeout(function() {
-                    document.querySelector('.loader-wrapper').style.display = 'none';
-                }, 500);
-            }, 3000);
-        });
+    document.body.classList.remove('loading');
+    document.querySelector('.loader-wrapper').style.opacity = '0';
+    setTimeout(function() {
+        document.querySelector('.loader-wrapper').style.display = 'none';
+    }, 500);
+});
 let cartCount = 0;
 const cartCountElement = document.querySelector('.cart-count');
 
@@ -50,7 +47,6 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', () => {
         cartCount++;
         updateCartCount();
-        showNotification('Product added to cart');
     });
 });
 
@@ -705,16 +701,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const addToCartBtn = card.querySelector('.add-to-cart');
             if (addToCartBtn) {
                 addToCartBtn.addEventListener('click', function(e) {
-                    // Prevent default action to demonstrate animation
                     e.preventDefault();
-                    
-                    // Add click animation
                     this.classList.add('button-click');
-                    
-                    // Show notification
-                    showNotification('تمت إضافة المنتج إلى السلة!');
-                    
-                    // Remove animation class after animation completes
                     setTimeout(() => {
                         this.classList.remove('button-click');
                     }, 500);
@@ -906,16 +894,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const addToCartBtn = card.querySelector('.add-to-cart');
             if (addToCartBtn) {
                 addToCartBtn.addEventListener('click', function(e) {
-                    // Prevent default action to demonstrate animation
                     e.preventDefault();
-                    
-                    // Add click animation
                     this.classList.add('button-click');
-                    
-                    // Show notification
-                    showNotification('تمت إضافة المنتج إلى السلة!');
-                    
-                    // Remove animation class after animation completes
                     setTimeout(() => {
                         this.classList.remove('button-click');
                     }, 500);
@@ -1000,155 +980,253 @@ function addNewArrivalsAnimations() {
 // Call the function to add animations
 addNewArrivalsAnimations();
 
-// Product data
-const products = {
-    'royal-oud': {
-        id: 'royal-oud',
-        name: 'Royal Oud',
-        price: 999.99,
+// Sample products data
+const products = [
+    {
+        id: 1,
+        name: "Royal Oud",
         category: "mens",
-        image: 'images/royal-oud.jpg',
-        description: 'A rich and luxurious oriental fragrance that combines rare oud wood with exotic spices.',
+        price: 1200,
+        image: "images/products/royal-oud.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Royal+Oud",
+        description: "A luxurious oriental fragrance with notes of oud, sandalwood, and spices.",
         rating: 4.8,
-        reviews: 128
+        reviews: 128,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Parfum",
+            "Gender": "Men",
+            "Longevity": "8-12 hours"
+        }
     },
-    'ocean-breeze': {
-        id: 'ocean-breeze',
-        name: 'Ocean Breeze',
-        price: 749.99,
-        category: "mens",
-        image: 'images/ocean-breeze.jpg',
-        description: 'A fresh and invigorating aquatic fragrance that captures the essence of the ocean.',
-        rating: 4.6,
-        reviews: 95
-    },
-    'vanilla-dreams': {
-        id: 'vanilla-dreams',
-        name: 'Vanilla Dreams',
-        price: 799.99,
+    {
+        id: 2,
+        name: "Rose Gold",
         category: "womens",
-        image: 'images/vanilla-dreams.jpg',
-        description: 'A sweet and comforting vanilla-based fragrance with hints of warm amber and musk.',
+        price: 950,
+        image: "images/products/rose-gold.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Rose+Gold",
+        description: "An elegant floral fragrance featuring rose, jasmine, and vanilla notes.",
         rating: 4.7,
-        reviews: 112
+        reviews: 95,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Parfum",
+            "Gender": "Women",
+            "Longevity": "6-8 hours"
+        }
     },
-    'kingdom-of-fragrances': {
-        id: 'kingdom-of-fragrances',
-        name: 'Kingdom of Fragrances',
-        price: 1199.99,
-        category: 'luxury',
-        image: 'images/kingdom.jpg',
-        description: 'A majestic blend of precious ingredients creating an unforgettable signature scent.',
+    {
+        id: 3,
+        name: "Amber Noir",
+        category: "luxury",
+        price: 1800,
+        image: "images/products/amber-noir.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Amber+Noir",
+        description: "A sophisticated blend of amber, musk, and precious woods.",
         rating: 4.9,
-        reviews: 156
+        reviews: 156,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Parfum",
+            "Gender": "Unisex",
+            "Longevity": "10-12 hours"
+        }
+    },
+    {
+        id: 4,
+        name: "Citrus Breeze",
+        category: "mens",
+        price: 750,
+        image: "images/products/citrus-breeze.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Citrus+Breeze",
+        description: "A refreshing citrus fragrance perfect for everyday wear.",
+        rating: 4.5,
+        reviews: 82,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Toilette",
+            "Gender": "Men",
+            "Longevity": "4-6 hours"
+        }
+    },
+    {
+        id: 5,
+        name: "Velvet Orchid",
+        category: "womens",
+        price: 1100,
+        image: "images/products/velvet-orchid.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Velvet+Orchid",
+        description: "A rich and sensual fragrance with orchid and honey notes.",
+        rating: 4.6,
+        reviews: 112,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Parfum",
+            "Gender": "Women",
+            "Longevity": "6-8 hours"
+        }
+    },
+    {
+        id: 6,
+        name: "Royal Collection",
+        category: "luxury",
+        price: 2000,
+        image: "images/products/royal-collection.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Royal+Collection",
+        description: "Our most exclusive fragrance with rare and precious ingredients.",
+        rating: 5.0,
+        reviews: 45,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Parfum",
+            "Gender": "Unisex",
+            "Longevity": "12+ hours"
+        }
+    },
+    {
+        id: 7,
+        name: "Ocean Mist",
+        category: "mens",
+        price: 850,
+        image: "images/products/ocean-mist.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Ocean+Mist",
+        description: "A fresh aquatic fragrance inspired by the ocean breeze.",
+        rating: 4.4,
+        reviews: 78,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Toilette",
+            "Gender": "Men",
+            "Longevity": "4-6 hours"
+        }
+    },
+    {
+        id: 8,
+        name: "Floral Dream",
+        category: "womens",
+        price: 900,
+        image: "images/products/floral-dream.jpg",
+        placeholder: "https://via.placeholder.com/300x300?text=Floral+Dream",
+        description: "A delicate blend of spring flowers and soft musk.",
+        rating: 4.7,
+        reviews: 103,
+        specs: {
+            "Volume": "100ml",
+            "Type": "Eau de Parfum",
+            "Gender": "Women",
+            "Longevity": "6-8 hours"
     }
-};
+    }
+];
 
-// Function to display products
 function displayProducts(category = 'all', maxPrice = 2000) {
-    console.log('Displaying products with category:', category, 'and maxPrice:', maxPrice);
-    
     const productsGrid = document.getElementById('products-grid');
-    if (!productsGrid) {
-        console.error('Products grid element not found');
-        return;
-    }
+    if (!productsGrid) return;
 
     // Filter products based on category and price
-    const filteredProducts = Object.values(products).filter(product => {
+    const filteredProducts = products.filter(product => {
         const categoryMatch = category === 'all' || product.category === category;
         const priceMatch = product.price <= maxPrice;
         return categoryMatch && priceMatch;
     });
 
-    console.log('Filtered products:', filteredProducts);
+    // Clear existing products
+    productsGrid.innerHTML = '';
 
     if (filteredProducts.length === 0) {
-        productsGrid.innerHTML = '<div class="no-products">No products found</div>';
+        productsGrid.innerHTML = '<div class="no-products">No products found matching your criteria</div>';
         return;
     }
 
     // Display filtered products
-    productsGrid.innerHTML = filteredProducts.map(product => `
-        <div class="product-card">
-            <div class="product-badge">New</div>
-            <div class="product-image-container">
-                <img src="${product.image}" alt="${product.name}" 
-                     onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'product-name-fallback\'>${product.name}</div>'">
+    filteredProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <div class="product-badge">${product.category === 'luxury' ? 'Luxury' : 'New'}</div>
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" onerror="this.onerror=null;this.src='${product.placeholder}';">
+                <div class="product-overlay">
+                    <button class="add-to-cart" data-product-id="${product.id}">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
             </div>
+            </div>
+            <div class="product-info">
             <h3>${product.name}</h3>
             <p class="description">${product.description}</p>
+                <div class="product-meta">
             <div class="rating">
                 ${Array(5).fill().map((_, i) => 
                     `<i class="fas fa-star${i < Math.floor(product.rating) ? '' : 
-                    i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : '-regular'}"></i>`
+                            i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : ''}"></i>`
                 ).join('')}
                 <span>(${product.reviews})</span>
             </div>
-            <div class="price">EGP ${product.price.toFixed(2)}</div>
-            <button class="add-to-cart" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
-                Add to Cart
-            </button>
+                    <div class="price">EGP ${product.price}</div>
         </div>
-    `).join('');
+            </div>
+        `;
+        productsGrid.appendChild(productCard);
+    });
+
+    // Add event listeners to new add to cart buttons
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = button.dataset.productId;
+            const product = products.find(p => p.id === parseInt(productId));
+            if (product) {
+                addToCart(productId, product.name, product.price, product.image);
+                showNotification('Product added to cart');
+    }
+});
+    });
 }
 
 // Initialize products page
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded');
-    if (document.getElementById('products-grid')) {
-        console.log('Products grid found, initializing page');
-        initProductsPage();
-    }
-});
-
-// Initialize products page
 function initProductsPage() {
-    console.log('Initializing products page');
+    // Get category from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category') || 'all';
     
-    // Initialize products display with default values
-    const defaultCategory = 'all';
-    const defaultMaxPrice = 2000;
-    displayProducts(defaultCategory, defaultMaxPrice);
-
-    // Set default active category
-    const defaultCategoryLink = document.querySelector('.category-list a[data-category="all"]');
-    if (defaultCategoryLink) {
-        defaultCategoryLink.classList.add('active');
-    }
-
-    // Set default price filter value
+    // Get price filter value
     const priceFilter = document.getElementById('price-filter');
-    const priceValue = document.getElementById('price-value');
-    if (priceFilter && priceValue) {
-        priceFilter.value = defaultMaxPrice;
-        priceValue.textContent = `EGP ${defaultMaxPrice}`;
-    }
-
-    // Category filter
+    const maxPrice = priceFilter ? parseInt(priceFilter.value) : 2000;
+    
+    // Display products
+    displayProducts(category, maxPrice);
+    
+    // Add event listeners for filters
     const categoryLinks = document.querySelectorAll('.category-list a');
     categoryLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            const category = link.dataset.category;
+            displayProducts(category, maxPrice);
+            
+            // Update active state
             categoryLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
-            const category = link.getAttribute('data-category');
-            const maxPrice = parseInt(document.getElementById('price-filter').value);
-            displayProducts(category, maxPrice);
         });
     });
 
-    // Price filter
-    const priceFilterElement = document.getElementById('price-filter');
-    if (priceFilterElement) {
-        priceFilterElement.addEventListener('input', (e) => {
+    // Add event listener for price filter
+    if (priceFilter) {
+        priceFilter.addEventListener('input', (e) => {
             const maxPrice = parseInt(e.target.value);
             document.getElementById('price-value').textContent = `EGP ${maxPrice}`;
-            const category = document.querySelector('.category-list a.active').getAttribute('data-category');
             displayProducts(category, maxPrice);
         });
     }
 }
+
+// Call initProductsPage when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('products-grid')) {
+        initProductsPage();
+    }
+});
 
 // Initialize cart
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -1224,7 +1302,7 @@ function displayProducts(category = 'all', maxPrice = 2000) {
     const productsGrid = document.getElementById('products-grid');
     if (!productsGrid) return;
 
-    const filteredProducts = Object.values(products).filter(product => {
+    const filteredProducts = products.filter(product => {
         const matchesCategory = category === 'all' || product.category.toLowerCase().includes(category);
         const matchesPrice = product.price <= maxPrice;
         return matchesCategory && matchesPrice;
