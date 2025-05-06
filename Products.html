@@ -6,14 +6,14 @@
     <title>Shop - Scentify</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="cart.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/script.js"></script>
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="Scentify Logo" class="header-logo"></a>
+                <a href="index.html"><img src="assets/images/logo.png" alt="Scentify Logo" class="header-logo"></a>
             </div>
             <div class="search-bar">
                 <input type="text" placeholder="Search for perfumes..." id="search-input">
@@ -56,7 +56,78 @@
             </aside>
 
             <section class="products-grid" id="products-grid">
-                <!-- Products will be dynamically loaded here -->
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <a href="productsviewer.html?id=royal-oud">
+                        <img src="assets/images/royal-oud.jpg" alt="Luxury Perfume">
+                    </a>
+                    <h3>Royal Oud</h3>
+                    <p class="description">Rich and luxurious oriental fragrance</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <div class="price">EGP 999.99</div>
+                    <button class="add-to-cart" onclick="addToCart('royal-oud', 'Royal Oud', 999.99, 'assets/images/royal-oud.jpg')">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <a href="productsviewer.html?id=vanilla-dreams">
+                        <img src="assets/images/vanilla-dreams.jpg" alt="Luxury Perfume">
+                    </a>
+                    <h3>Vanilla Dreams</h3>
+                    <p class="description">Sweet and comforting vanilla-based fragrance</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(5.0)</span>
+                    </div>
+                    <div class="price">EGP 799.99</div>
+                    <button class="add-to-cart" onclick="addToCart('vanilla-dreams', 'Vanilla Dreams', 799.99, 'assets/images/vanilla-dreams.jpg')">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <a href="productsviewer.html?id=spring-blossom">
+                        <img src="assets/images/spring-blossom.jpg" alt="Luxury Perfume">
+                    </a>
+                    <h3>Spring Blossom</h3>
+                    <p class="description">Fresh and floral spring-inspired scent</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <div class="price">EGP 599.99</div>
+                    <button class="add-to-cart" onclick="addToCart('spring-blossom', 'Spring Blossom', 599.99, 'assets/images/spring-blossom.jpg')">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">New</div>
+                    <a href="productsviewer.html?id=amber-wood">
+                        <img src="assets/images/amber-wood.jpg" alt="Luxury Perfume">
+                    </a>
+                    <h3>Amber Wood</h3>
+                    <p class="description">Warm and woody fragrance with amber notes</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(4.7)</span>
+                    </div>
+                    <div class="price">EGP 899.99</div>
+                    <button class="add-to-cart" onclick="addToCart('amber-wood', 'Amber Wood', 899.99, 'assets/images/amber-wood.jpg')">Add to Cart</button>
+                </div>
             </section>
         </div>
     </main>
