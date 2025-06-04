@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Press - Scentify</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .press-main {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .press-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .press-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .press-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .press-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .press-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .press-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .press-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .press-content {
+            padding: 1.5rem;
+        }
+
+        .press-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .press-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .press-excerpt {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .read-more:hover {
+            color: var(--hover-color);
+        }
+
+        .media-kit {
+            background: #f8f9fa;
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .media-kit h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .media-kit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .media-item {
+            text-align: center;
+        }
+
+        .media-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .media-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .media-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .download-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .download-button:hover {
+            background: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+        .contact-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .contact-section h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .press-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .media-kit {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../../index.html">
+                    <img src="../../assets/images/logo.jpg" alt="Scentify Logo" class="header-logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../shop/Products.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon">
+                <a href="../cart/cart.html" id="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="press-main">
+        <div class="press-header">
+            <h1>Press Room</h1>
+            <p>Latest news, press releases, and media resources</p>
+        </div>
+
+        <div class="press-grid">
+            <article class="press-card">
+                <img src="../../assets/images/press1.jpg" alt="Press Release" class="press-image">
+                <div class="press-content">
+                    <div class="press-date">March 15, 2024</div>
+                    <h2 class="press-title">Scentify Launches New Sustainable Collection</h2>
+                    <p class="press-excerpt">Leading perfume brand introduces eco-friendly packaging and sustainable sourcing practices...</p>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="press-card">
+                <img src="../../assets/images/press2.jpg" alt="Press Release" class="press-image">
+                <div class="press-content">
+                    <div class="press-date">March 10, 2024</div>
+                    <h2 class="press-title">Scentify Wins Best Luxury Brand Award</h2>
+                    <p class="press-excerpt">Recognized for excellence in fragrance innovation and customer experience...</p>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="press-card">
+                <img src="../../assets/images/press3.jpg" alt="Press Release" class="press-image">
+                <div class="press-content">
+                    <div class="press-date">March 5, 2024</div>
+                    <h2 class="press-title">Scentify Expands to International Markets</h2>
+                    <p class="press-excerpt">Global expansion plans announced with new stores opening in key markets...</p>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div class="media-kit">
+            <h2>Media Resources</h2>
+            <div class="media-kit-grid">
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3 class="media-title">Brand Assets</h3>
+                    <p class="media-description">Download our logo, product images, and brand guidelines.</p>
+                    <a href="#" class="download-button">Download</a>
+                </div>
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="media-title">Press Kit</h3>
+                    <p class="media-description">Company information, key facts, and executive bios.</p>
+                    <a href="#" class="download-button">Download</a>
+                </div>
+                <div class="media-item">
+                    <div class="media-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="media-title">Video Content</h3>
+                    <p class="media-description">Brand videos, product demonstrations, and interviews.</p>
+                    <a href="#" class="download-button">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2>Media Inquiries</h2>
+            <p>For press inquiries, please contact our media relations team</p>
+            <a href="contact.html" class="contact-button">Contact Us</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="../shop/Products.html?category=mens">Men's Perfumes</a></li>
+                    <li><a href="../shop/Products.html?category=womens">Women's Perfumes</a></li>
+                    <li><a href="../shop/Products.html?category=luxury">Luxury Collection</a></li>
+                    <li><a href="../shop/Products.html?category=new">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="returns.html">Returns & Exchanges</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Story</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Scentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/script.js"></script>
+</body>
+</html> 

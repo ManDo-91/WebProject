@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Scentify</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="../../assets/js/products.js"></script>
+    <script src="../../assets/js/cart.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../../index.html">
+                    <img src="../../assets/images/logo.jpg" alt="Scentify Logo" class="header-logo">
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for perfumes..." id="search-input">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="Products.html">Shop</a></li>
+                <li><a href="../general/about.html">About</a></li>
+                <li><a href="../general/contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon">
+                <a href="../cart/cart.html" id="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="products-main">
+        <div class="products-container">
+            <aside class="filters">
+                <h3>Categories</h3>
+                <ul class="category-list">
+                    <li><a href="#" data-category="all" class="active">All Products</a></li>
+                    <li><a href="#" data-category="mens">Men's Collection</a></li>
+                    <li><a href="#" data-category="womens">Women's Collection</a></li>
+                    <li><a href="#" data-category="luxury">Luxury Collection</a></li>
+                </ul>
+
+                <div class="price-range">
+                    <h3>Price Range</h3>
+                    <input type="range" id="price-filter" min="0" max="2000" step="100" value="2000">
+                    <div class="price-values">
+                        <span>EGP 0</span>
+                        <span id="price-value">EGP 2000</span>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="products-grid" id="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="Products.html?category=mens">Men's Perfumes</a></li>
+                    <li><a href="Products.html?category=womens">Women's Perfumes</a></li>
+                    <li><a href="Products.html?category=luxury">Luxury Collection</a></li>
+                    <li><a href="Products.html?category=new">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="../general/contact.html">Contact Us</a></li>
+                    <li><a href="../general/shipping.html">Shipping Policy</a></li>
+                    <li><a href="../general/returns.html">Returns & Exchanges</a></li>
+                    <li><a href="../general/faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="../general/about.html">Our Story</a></li>
+                    <li><a href="../general/blog.html">Blog</a></li>
+                    <li><a href="../general/careers.html">Careers</a></li>
+                    <li><a href="../general/press.html">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4587</p>
+                    <p><i class="fas fa-envelope"></i> info@scentify.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Perfume Street, NY</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Scentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productsGrid = document.getElementById('products-grid');
+            const searchInput = document.getElementById('search-input');
+            const priceFilter = document.getElementById('price-filter');
+            const priceValue = document.getElementById('price-value');
+            const categoryLinks = document.querySelectorAll('.category-list a');
+
+            // Function to create product card HTML
+            function createProductCard(product) {
+                return `
+                    <div class="product-card">
+                        <div class="product-badge">New</div>
+                        <a href="productsviewer.html?id=${product.id}">
+                            <img src="../../${product.image}" alt="${product.name}">
+                        </a>
+                        <h3>${product.name}</h3>
+                        <p class="description">${product.description}</p>
+                        <div class="rating">
+                            ${Array(5).fill().map((_, i) => 
+                                `<i class="fas fa-star${i < Math.floor(product.rating) ? '' : 
+                                    i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : ''}"></i>`
+                            ).join('')}
+                            <span>(${product.rating})</span>
+                        </div>
+                        <div class="price">EGP ${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '../../${product.image}')">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Function to display products
+            function displayProducts(products) {
+                productsGrid.innerHTML = products.map(createProductCard).join('');
+            }
+
+            // Function to filter products
+            function filterProducts() {
+                const category = document.querySelector('.category-list a.active')?.dataset.category || 'all';
+                const maxPrice = parseInt(priceFilter.value);
+                const searchQuery = searchInput.value.toLowerCase();
+
+                let filteredProducts = window.productFunctions.getAllProducts();
+
+                // Apply category filter first
+                if (category !== 'all') {
+                    filteredProducts = filteredProducts.filter(product => product.category === category);
+                }
+
+                // Then apply price filter
+                filteredProducts = filteredProducts.filter(product => product.price <= maxPrice);
+
+                // Finally apply search filter
+                if (searchQuery) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        product.name.toLowerCase().includes(searchQuery) || 
+                        product.description.toLowerCase().includes(searchQuery)
+                    );
+                }
+
+                displayProducts(filteredProducts);
+            }
+
+            // Event listeners
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    filterProducts();
+                });
+            });
+
+            priceFilter.addEventListener('input', function() {
+                priceValue.textContent = `EGP ${this.value}`;
+                filterProducts();
+            });
+
+            searchInput.addEventListener('input', filterProducts);
+
+            // Handle URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchParam = urlParams.get('search');
+            const categoryParam = urlParams.get('category');
+
+            // Set initial search value if present in URL
+            if (searchParam) {
+                searchInput.value = searchParam;
+            }
+
+            // Set initial category if present in URL
+            if (categoryParam) {
+                const categoryLink = Array.from(categoryLinks).find(link => 
+                    link.dataset.category === categoryParam
+                );
+                if (categoryLink) {
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    categoryLink.classList.add('active');
+                }
+            }
+
+            // Initial display
+            filterProducts();
+        });
+    </script>
+</body>
+</html>

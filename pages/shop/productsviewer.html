@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details - Scentify</title>
+  <meta name="description" content="Discover our premium collection of perfumes at Scentify. Find your perfect scent today.">
+  <meta property="og:title" content="Product Details - Scentify">
+  <meta property="og:description" content="Discover our premium collection of perfumes at Scentify. Find your perfect scent today.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="../../assets/js/products.js"></script>
+  <script src="../../assets/js/cart.js"></script>
+  <style>
+    .product-viewer {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .product-image {
+      position: relative;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--primary-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .product-title {
+      font-size: 2rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .product-rating .stars {
+      color: #ffd700;
+    }
+
+    .product-price {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .product-description {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .product-features {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .product-features li {
+      margin-bottom: 0.5rem;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .product-features li i {
+      color: var(--primary-color);
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .quantity-selector button {
+      background: #f8f9fa;
+      border: none;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .quantity-selector input {
+      width: 3rem;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.5rem;
+    }
+
+    .add-to-cart-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--hover-color);
+      transform: translateY(-2px);
+    }
+
+    .related-products {
+      margin-top: 4rem;
+    }
+
+    .related-products h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <header>
+    <nav>
+      <div class="logo">
+        <a href="../../index.html">
+          <img src="../../assets/images/logo.jpg" alt="Scentify Logo" class="header-logo">
+        </a>
+      </div>
+      <button class="mobile-menu-btn" id="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="search-bar">
+        <input type="text" placeholder="Search for perfumes...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="Products.html">Shop</a></li>
+        <li><a href="../general/about.html">About</a></li>
+        <li><a href="../general/contact.html">Contact</a></li>
+      </ul>
+      <div class="cart-icon">
+        <a href="../cart/cart.html" id="icon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="product-viewer">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span>/</span>
+      <a href="Products.html">Shop</a>
+      <span>/</span>
+      <span id="product-name">Product</span>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" id="error-message"></div>
+
+    <div class="product-container" id="product-container">
+      <!-- Product content will be dynamically loaded here -->
+    </div>
+  </main>
+
+  <section class="product-suggestions">
+    <h2 class="suggestions-title">You May Also Like</h2>
+    <div class="suggestions-grid" id="suggestions-grid">
+      <!-- Suggestions will be loaded here -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="Products.html?category=mens">Men's Perfumes</a></li>
+          <li><a href="Products.html?category=womens">Women's Perfumes</a></li>
+          <li><a href="Products.html?category=luxury">Luxury Collection</a></li>
+          <li><a href="Products.html?category=new">New Arrivals</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="../general/contact.html">Contact Us</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns & Exchanges</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <ul>
+          <li><a href="../general/about.html">Our Story</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +20 123-4567</p>
+          <p><i class="fas fa-envelope"></i> info@scentify.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Perfume Street, NY</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Scentify. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Show loading state
+      function showLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+      }
+
+      // Hide loading state
+      function hideLoading() {
+        document.getElementById('loading-overlay').style.display = 'none';
+      }
+
+      // Show error message
+      function showError(message) {
+        const errorElement = document.getElementById('error-message');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+      }
+
+      // Hide error message
+      function hideError() {
+        document.getElementById('error-message').style.display = 'none';
+      }
+
+      // Show toast notification
+      function showToast(message, duration = 3000) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, duration);
+      }
+
+      // Mobile menu toggle
+      document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+        document.getElementById('nav-links').classList.toggle('active');
+      });
+
+      // Function to display product details
+      async function displayProductDetails() {
+        showLoading();
+        hideError();
+
+        try {
+          const urlParams = new URLSearchParams(window.location.search);
+          const productId = urlParams.get('id');
+          
+          if (!productId) {
+            throw new Error('Product ID is required');
+          }
+
+          const product = window.productFunctions.getProductById(productId);
+
+          if (!product) {
+            throw new Error('Product not found');
+          }
+
+          // Update page title and breadcrumb
+          document.title = `${product.name} - Scentify`;
+          document.getElementById('product-name').textContent = product.name;
+          
+          const productContainer = document.getElementById('product-container');
+          productContainer.innerHTML = `
+            <div class="product-images">
+              <div class="thumbnail-container">
+                ${product.images.map((img, index) => `
+                  <img src="../../${img}" 
+                       alt="${product.name} - View ${index + 1}" 
+                       class="thumbnail ${index === 0 ? 'active' : ''}"
+                       onclick="changeMainImage(this.src)"
+                       loading="lazy"
+                       onerror="this.src='../../assets/images/placeholder.jpg'">
+                `).join('')}
+              </div>
+              <img src="../../${product.image}" 
+                   alt="${product.name}" 
+                   class="main-image" 
+                   id="main-image" 
+                   loading="lazy"
+                   onerror="this.src='../../assets/images/placeholder.jpg'">
+            </div>
+            <div class="product-details">
+              <h1 class="product-title">${product.name}</h1>
+              <div class="product-badges">
+                ${product.category === 'luxury' ? '<span class="badge luxury">Luxury</span>' : ''}
+                ${product.isNew ? '<span class="badge new">New</span>' : ''}
+              </div>
+              <div class="product-rating">
+                ${Array(5).fill().map((_, i) => 
+                  `<i class="fas fa-star${i < Math.floor(product.rating) ? '' : 
+                    i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : ''}"></i>`
+                ).join('')}
+                <span>(${product.reviews} reviews)</span>
+              </div>
+              <div class="product-price">EGP ${product.price.toFixed(2)}</div>
+              <div class="quantity-selector">
+                <button class="quantity-btn" onclick="updateQuantity(-1)" type="button">-</button>
+                <input type="number" 
+                       class="quantity-input" 
+                       id="quantity" 
+                       value="1" 
+                       min="1" 
+                       max="10"
+                       onchange="validateQuantity(this)">
+                <button class="quantity-btn" onclick="updateQuantity(1)" type="button">+</button>
+              </div>
+              <p class="product-description">${product.description}</p>
+              <div class="product-actions">
+                <button class="add-to-cart" 
+                        onclick="addToCartWithQuantity('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
+                  Add to Cart
+                </button>
+                <button class="wishlist" onclick="toggleWishlist('${product.id}')">
+                  <i class="far fa-heart"></i>
+                </button>
+              </div>
+              <div class="product-specs">
+                ${Object.entries(product.specs).map(([label, value]) => `
+                  <div class="spec-item">
+                    <span class="spec-label">${label}</span>
+                    <span class="spec-value">${value}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+
+          // Display suggestions
+          displaySuggestions(productId);
+        } catch (error) {
+          showError(error.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      // Function to change main image
+      window.changeMainImage = function(src) {
+        const mainImage = document.getElementById('main-image');
+        mainImage.src = src;
+        
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+          thumb.classList.remove('active');
+          if (thumb.src === src) {
+            thumb.classList.add('active');
+          }
+        });
+      };
+
+      // Function to update quantity
+      window.updateQuantity = function(change) {
+        const input = document.getElementById('quantity');
+        const newValue = parseInt(input.value) + change;
+        if (newValue >= 1 && newValue <= 10) {
+          input.value = newValue;
+        }
+      };
+
+      // Function to validate quantity input
+      window.validateQuantity = function(input) {
+        let value = parseInt(input.value);
+        if (isNaN(value) || value < 1) {
+          value = 1;
+        } else if (value > 10) {
+          value = 10;
+        }
+        input.value = value;
+      };
+
+      // Function to add to cart with quantity
+      window.addToCartWithQuantity = function(productId, productName, price, image) {
+        const quantity = parseInt(document.getElementById('quantity').value);
+        for (let i = 0; i < quantity; i++) {
+          addToCart(productId, productName, price, image);
+        }
+        showToast(`Added ${quantity} ${quantity === 1 ? 'item' : 'items'} to cart`);
+      };
+
+      // Function to toggle wishlist
+      window.toggleWishlist = function(productId) {
+        const wishlistBtn = document.querySelector('.wishlist i');
+        const isWishlisted = wishlistBtn.classList.contains('fas');
+        
+        if (!isWishlisted) {
+          wishlistBtn.classList.replace('far', 'fas');
+          showToast('Added to wishlist');
+          // Here you would typically save to localStorage or send to server
+          localStorage.setItem(`wishlist_${productId}`, 'true');
+        } else {
+          wishlistBtn.classList.replace('fas', 'far');
+          showToast('Removed from wishlist');
+          // Here you would typically remove from localStorage or send to server
+          localStorage.removeItem(`wishlist_${productId}`);
+        }
+      };
+
+      // Function to display suggestions
+      function displaySuggestions(currentProductId) {
+        const suggestionsGrid = document.getElementById('suggestions-grid');
+        const suggestions = window.productFunctions.getRandomSuggestions(currentProductId, 4);
+
+        if (suggestions.length === 0) {
+          suggestionsGrid.innerHTML = '<p class="no-suggestions">No suggestions available</p>';
+          return;
+        }
+
+        suggestionsGrid.innerHTML = suggestions.map(product => `
+          <div class="product-card">
+            <a href="productsviewer.html?id=${product.id}">
+              <img src="../../${product.image}" 
+                   alt="${product.name}" 
+                   loading="lazy"
+                   onerror="this.src='../../assets/images/placeholder.jpg'">
+            </a>
+            <h3>${product.name}</h3>
+            <div class="rating">
+              ${Array(5).fill().map((_, i) => 
+                `<i class="fas fa-star${i < Math.floor(product.rating) ? '' : 
+                  i === Math.floor(product.rating) && product.rating % 1 !== 0 ? '-half-alt' : ''}"></i>`
+              ).join('')}
+              <span>(${product.rating})</span>
+            </div>
+            <div class="price">EGP ${product.price.toFixed(2)}</div>
+          </div>
+        `).join('');
+      }
+
+      // Initialize the page
+      displayProductDetails();
+    });
+  </script>
+</body>
+</html>
+
