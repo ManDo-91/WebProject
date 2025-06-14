@@ -245,7 +245,6 @@ productSchema.methods.updateSalesData = function(quantity, price) {
     this.salesData.lastSold = new Date();
     this.stock -= quantity;
 };
-
 // Check if product is on sale
 productSchema.methods.isOnSale = function() {
     const now = new Date();
