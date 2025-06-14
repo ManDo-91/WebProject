@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Scentify</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .admin-dashboard {
@@ -355,17 +356,16 @@
     <div class="admin-dashboard">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="images/admin-avatar.jpg" alt="Admin Avatar">
-                <h2>Admin Name</h2>
-                <p>Administrator</p>
+                <img src="../../assets/images/logo.jpg" alt="Scentify Logo">
+                <h2>Scentify Admin</h2>
+                <p id="adminName">Admin Name</p>
             </div>
             <ul class="sidebar-menu">
                 <li><a href="admin-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="admin-products.html"><i class="fas fa-box"></i> Products</a></li>
                 <li><a href="admin-orders.html"><i class="fas fa-shopping-cart"></i> Orders</a></li>
-                <li><a href="admin-customers.html"><i class="fas fa-users"></i> Customers</a></li>
                 <li><a href="admin-analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
-                <li><a href="admin-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
 
@@ -373,11 +373,8 @@
             <div class="dashboard-header">
                 <h1 class="dashboard-title">Dashboard Overview</h1>
                 <div class="dashboard-actions">
-                    <button class="add-product" onclick="openAddProductModal()">
+                    <button class="admin-btn admin-btn-primary" onclick="window.location.href='admin-products.html'">
                         <i class="fas fa-plus"></i> Add Product
-                    </button>
-                    <button class="logout" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
             </div>
@@ -385,7 +382,7 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>Total Sales</h3>
-                    <div class="value">EGP 25,000</div>
+                    <div class="value" data-stat="totalSales">$0</div>
                     <div class="trend up">
                         <i class="fas fa-arrow-up"></i>
                         <span>12% from last month</span>
@@ -393,142 +390,37 @@
                 </div>
                 <div class="stat-card">
                     <h3>Total Orders</h3>
-                    <div class="value">156</div>
+                    <div class="value" data-stat="totalOrders">0</div>
                     <div class="trend up">
                         <i class="fas fa-arrow-up"></i>
                         <span>8% from last month</span>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <h3>Total Products</h3>
-                    <div class="value">42</div>
-                    <div class="trend up">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>5 new products</span>
-                    </div>
-                </div>
-                <div class="stat-card">
                     <h3>Total Customers</h3>
-                    <div class="value">89</div>
+                    <div class="value" data-stat="totalCustomers">0</div>
                     <div class="trend up">
                         <i class="fas fa-arrow-up"></i>
                         <span>15% from last month</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">Recent Orders</h2>
-                    <a href="#" class="view-all">View All</a>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#ORD-001</td>
-                                <td>John Doe</td>
-                                <td>2024-03-15</td>
-                                <td>EGP 1,200</td>
-                                <td><span class="status active">Completed</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="action-button view-button" title="View Order">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="action-button edit-button" title="Edit Order">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                <div class="stat-card">
+                    <h3>Average Order Value</h3>
+                    <div class="value" data-stat="averageOrderValue">$0</div>
+                    <div class="trend down">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>3% from last month</span>
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#ORD-002</td>
-                                <td>Jane Smith</td>
-                                <td>2024-03-14</td>
-                                <td>EGP 850</td>
-                                <td><span class="status pending">Pending</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="action-button view-button" title="View Order">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="action-button edit-button" title="Edit Order">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
             <div class="content-section">
                 <div class="section-header">
-                    <h2 class="section-title">Recent Products</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <h2 class="section-title">Recent Activity</h2>
                 </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product ID</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#PRD-001</td>
-                                <td>Royal Oud</td>
-                                <td>Men's Collection</td>
-                                <td>EGP 999.99</td>
-                                <td>15</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="action-button edit-button" title="Edit Product">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-button delete-button" title="Delete Product">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#PRD-002</td>
-                                <td>Vanilla Dreams</td>
-                                <td>Women's Collection</td>
-                                <td>EGP 799.99</td>
-                                <td>20</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="action-button edit-button" title="Edit Product">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-button delete-button" title="Delete Product">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <ul class="activity-list">
+                    <!-- Activity items will be dynamically loaded here -->
+                </ul>
             </div>
         </main>
     </div>
@@ -578,69 +470,6 @@
         </div>
     </div>
 
-    <script>
-        // Check if user is logged in and is admin
-        document.addEventListener('DOMContentLoaded', function() {
-            const userRole = localStorage.getItem('userRole');
-            if (!userRole || userRole !== 'admin') {
-                window.location.href = 'login.html';
-            }
-        });
-
-        // Modal functions
-        function openAddProductModal() {
-            document.getElementById('addProductModal').style.display = 'block';
-        }
-
-        function closeAddProductModal() {
-            document.getElementById('addProductModal').style.display = 'none';
-        }
-
-        // Handle form submission
-        document.getElementById('addProductForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const product = {
-                name: document.getElementById('productName').value,
-                category: document.getElementById('productCategory').value,
-                price: parseFloat(document.getElementById('productPrice').value),
-                stock: parseInt(document.getElementById('productStock').value),
-                description: document.getElementById('productDescription').value,
-                image: document.getElementById('productImage').files[0]
-            };
-
-            // Get existing products from localStorage
-            const products = JSON.parse(localStorage.getItem('products')) || [];
-
-            // Add new product
-            products.push({
-                id: 'PRD-' + (products.length + 1).toString().padStart(3, '0'),
-                ...product
-            });
-
-            // Save updated products array to localStorage
-            localStorage.setItem('products', JSON.stringify(products));
-
-            // Close modal and refresh page
-            closeAddProductModal();
-            location.reload();
-        });
-
-        // Logout function
-        function logout() {
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('userRole');
-            window.location.href = 'login.html';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('addProductModal');
-            if (event.target === modal) {
-                closeAddProductModal();
-            }
-        }
-    </script>
+    <script src="../../assets/js/admin.js"></script>
 </body>
 </html> 
