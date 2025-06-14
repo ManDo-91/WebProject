@@ -1,1 +1,135 @@
-// Password validation functions (if needed for admin signup)\n// function validatePassword(password) { ... }\n\ndocument.addEventListener('DOMContentLoaded', function() {\n    // Admin registration handling\n    const adminSignupForm = document.getElementById('adminSignupForm');\n    \n    if (adminSignupForm) {\n        adminSignupForm.addEventListener('submit', function(e) {\n            e.preventDefault();\n            \n            const adminKey = document.getElementById('admin-key').value;\n            const fullname = document.getElementById('fullname').value;\n            const email = document.getElementById('email').value;\n            const password = document.getElementById('password').value;\n            const confirmPassword = document.getElementById('confirm-password').value;\n            const position = document.getElementById('position').value;\n            const department = document.getElementById('department').value;\n\n            // Validate admin key (this should be replaced with a secure backend validation)\n            const validAdminKey = 'SCENTIFY-ADMIN-2024'; // This should be stored securely on the backend\n            if (adminKey !== validAdminKey) {\n                showError('Invalid admin registration key');\n                return;\n            }\n\n            // Validate all fields\n            if (!fullname || !email || !password || !confirmPassword || !position || !department) {\n                showError('Please fill in all fields');\n                return;\n            }\n\n            // Validate email format\n            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;\n            if (!emailRegex.test(email)) {\n                showError('Please enter a valid email address');\n                return;\n            }\n\n            // Validate password strength (assuming validatePassword function is available or moved here)\n            // if (!validatePassword(password)) {\n            //     showError('Password does not meet requirements');\n            //     return;\n            // }\n\n            if (password !== confirmPassword) {\n                showError('Passwords do not match');\n                return;\n            }\n\n            // Here you would typically make an API call to your backend\n            // For now, we'll just simulate a successful admin registration\n            const adminData = {\n                fullname,\n                email,\n                password, // In a real application, you would hash the password before storing\n                position,\n                department,\n                role: 'admin'\n            };\n\n            // Store admin data (in a real application, this would be handled by the backend)\n            localStorage.setItem('adminData', JSON.stringify(adminData));\n            \n            // Show success message\n            const successMessage = document.getElementById('successMessage');\n            if (successMessage) {\n                 successMessage.textContent = 'Admin account created successfully! Redirecting to login...';\n                 successMessage.style.display = 'block';\n            }\n           \n\n            // Redirect to admin login page after 2 seconds\n            setTimeout(() => {\n                window.location.href = 'admin-login.html';\n            }, 2000);\n        });\n    }\n});\n\n// Error message handling (assuming this is needed for admin signup only, otherwise move to a common file)\nfunction showError(message) {\n    const errorElement = document.getElementById('errorMessage');\n    if (errorElement) {\n        errorElement.textContent = message;\n        errorElement.style.display = 'block';\n        setTimeout(() => {\n            errorElement.style.display = 'none';\n        }, 3000);\n    }\n} 
+// Password validation functions
+function validatePassword(password) {
+    const requirements = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*]/.test(password)
+    };
+
+    // Update UI for each requirement
+    Object.keys(requirements).forEach(req => {
+        const element = document.getElementById(req);
+        if (element) {
+            const icon = element.querySelector('i');
+            if (requirements[req]) {
+                element.classList.add('valid');
+                element.classList.remove('invalid');
+                icon.className = 'fas fa-check';
+            } else {
+                element.classList.add('invalid');
+                element.classList.remove('valid');
+                icon.className = 'fas fa-times';
+            }
+        }
+    });
+
+    return Object.values(requirements).every(Boolean);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Admin signup form handling
+    const adminSignupForm = document.getElementById('adminSignupForm');
+    if (adminSignupForm) {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Real-time password validation
+        passwordInput.addEventListener('input', function() {
+            validatePassword(this.value);
+        });
+
+        // Confirm password validation
+        confirmPasswordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const confirmPassword = this.value;
+            
+            if (password !== confirmPassword) {
+                this.setCustomValidity('Passwords do not match');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        adminSignupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const adminKey = document.getElementById('adminKey').value.trim();
+            const terms = document.getElementById('terms').checked;
+
+            // Clear previous error
+            showError('');
+
+            // Validate all fields
+            if (!fullname || !email || !password || !confirmPassword || !adminKey) {
+                showError('Please fill in all fields');
+                return;
+            }
+
+            if (!validatePassword(password)) {
+                showError('Password does not meet requirements');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            if (!terms) {
+                showError('Please agree to the Terms & Conditions');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullname,
+                        email,
+                        password,
+                        adminKey
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store user data
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                    
+                    if (data.isAdmin) {
+                        alert('Admin account created successfully! Redirecting to admin login...');
+                        window.location.href = 'admin-login.html';
+                    } else {
+                        alert('Account created successfully! Please log in.');
+                        window.location.href = 'login.html';
+                    }
+                } else {
+                    showError(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Error during registration:', error);
+                showError('An error occurred during registration. Please try again.');
+            }
+        });
+    }
+});
+
+// Function to show error messages
+function showError(message) {
+    const errorElement = document.getElementById('errorMessage');
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = message ? 'block' : 'none';
+    }
+} 

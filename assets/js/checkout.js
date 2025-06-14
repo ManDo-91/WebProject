@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle form submission
     const checkoutForm = document.getElementById('checkoutForm');
     if (checkoutForm) {
-        checkoutForm.addEventListener('submit', function(e) {
+        checkoutForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Validate form
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Process payment
+            // Process payment (currently simulated)
             const paymentMethod = document.querySelector('.payment-tab.active').getAttribute('data-tab');
             if (paymentMethod === 'credit-card') {
                 const cardNumber = document.getElementById('card-number').value;
@@ -73,15 +73,63 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
             }
-
-            // Clear cart and show success message
-            localStorage.removeItem('cart');
-            showNotification('Order placed successfully!', 'success');
             
-            // Redirect to home page after 2 seconds
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
+            // --- NEW: Send order to backend API ---
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser || !currentUser.email) {
+                showNotification('You must be logged in to place an order', 'error');
+                return;
+            }
+
+            if (cart.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+
+            // Prepare order items for the backend (only productId and quantity needed for now)
+            const orderItems = cart.map(item => ({
+                productId: item._id, // Assuming _id is available from product object
+                quantity: item.quantity
+            }));
+
+            try {
+                const response = await fetch('http://localhost:5000/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-user-email': currentUser.email // Send user email for authentication
+                    },
+                    body: JSON.stringify({ items: orderItems })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.removeItem('cart');
+                    showNotification('Order placed successfully!', 'success');
+                    
+                    // Redirect to orders page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '../account/orders.html'; // Redirect to user's orders page
+                    }, 2000);
+                } else {
+                    showNotification(data.message || 'Failed to place order', 'error');
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showNotification('An error occurred. Please try again.', 'error');
+            }
+
+            // --- END NEW --- 
+
+            // // OLD: Clear cart and show success message (moved inside try/catch)
+            // localStorage.removeItem('cart');
+            // showNotification('Order placed successfully!', 'success');
+            
+            // // OLD: Redirect to home page after 2 seconds (moved inside try/catch)
+            // setTimeout(() => {
+            //     window.location.href = 'index.html';
+            // }, 2000);
         });
     }
 

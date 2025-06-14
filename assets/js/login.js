@@ -1,43 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
     
     // Handle login form submission
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
-            
-            // Basic validation
-            if (!email || !password) {
-                showError('Please fill in all fields');
-                return;
-            }
+            const rememberMe = document.getElementById('remember').checked;
 
-            // For demo purposes - replace with actual user authentication
-            if (email === 'user@example.com' && password === 'user123') {
-                // Store user session
-                localStorage.setItem('currentUser', JSON.stringify({
-                    role: 'user',
-                    email: email,
-                    name: 'Demo User' // You might want to get the user's name from a backend
-                }));
+            // Clear previous error
+            showError('');
 
-                // Handle remember me
-                if (remember) {
-                    localStorage.setItem('rememberedEmail', email);
-                    localStorage.setItem('rememberedPassword', password);
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store user data
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('rememberedEmail', email);
+                    } else {
+                        localStorage.removeItem('rememberedEmail');
+                    }
+
+                    // Show welcome message
+                    const welcomeMessage = document.getElementById('welcome-message');
+                    const userName = document.getElementById('user-name');
+                    if (welcomeMessage && userName) {
+                        userName.textContent = data.name;
+                        welcomeMessage.style.display = 'block';
+                    }
+
+                    // Redirect based on role
+                    if (data.isAdmin) {
+                        window.location.href = '../admin/admin-dashboard.html';
+                    } else {
+                        window.location.href = '../../index.html';
+                    }
                 } else {
-                    localStorage.removeItem('rememberedEmail');
-                    localStorage.removeItem('rememberedPassword');
+                    showError(data.message || 'Login failed');
                 }
-
-                // Redirect to home page
-                window.location.href = '../../index.html';
-            } else {
-                showError('Invalid email or password');
+            } catch (error) {
+                console.error('Error during login:', error);
+                showError('An error occurred during login. Please try again.');
             }
         });
     }
@@ -52,14 +72,53 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Error message handling (keep this function if used only on login page, otherwise move to a common file)
+// Function to display error messages
 function showError(message) {
-    const errorElement = document.getElementById('errorMessage');
-    if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-        setTimeout(() => {
-            errorElement.style.display = 'none';
-        }, 3000);
+    const errorMessageDiv = document.getElementById('errorMessage');
+    if (errorMessageDiv) {
+        errorMessageDiv.textContent = message;
+        errorMessageDiv.style.display = message ? 'block' : 'none';
     }
+}
+
+// Function to show welcome message
+function showWelcomeMessage(name) {
+    // Create welcome message element
+    const welcomeDiv = document.createElement('div');
+    welcomeDiv.className = 'welcome-message';
+    welcomeDiv.innerHTML = `
+        <div class="welcome-content">
+            <h2>Welcome, ${name}!</h2>
+            <p>You have successfully logged in.</p>
+        </div>
+    `;
+
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .welcome-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .welcome-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+    `;
+
+    document.head.appendChild(style);
+    document.body.appendChild(welcomeDiv);
 } 

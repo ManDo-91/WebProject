@@ -31,22 +31,29 @@ function handleLogout() {
     }
 }
 
-// Update dashboard stats (in a real application, this would fetch data from an API)
+// Update dashboard stats (fetch real data from backend)
 function updateDashboardStats() {
-    // This is mock data - in a real application, you would fetch this from your backend
-    const stats = {
-        totalSales: 24500,
-        totalOrders: 156,
-        totalCustomers: 2845,
-        averageOrderValue: 157
-    };
-
-    // Update the stats in the UI
-    Object.keys(stats).forEach(stat => {
-        const element = document.querySelector(`[data-stat="${stat}"]`);
-        if (element) {
-            element.textContent = formatStatValue(stat, stats[stat]);
+    const adminData = checkAdminAuth();
+    fetch('http://localhost:5000/api/admin/stats', {
+        headers: {
+            'x-user-email': adminData.email
         }
+    })
+    .then(res => res.json())
+    .then(stats => {
+        const statMap = {
+            totalSales: stats.totalRevenue,
+            totalOrders: stats.orderCount,
+            totalCustomers: stats.userCount,
+            totalProducts: stats.productCount,
+            averageOrderValue: stats.orderCount ? (stats.totalRevenue / stats.orderCount).toFixed(2) : 0
+        };
+        Object.keys(statMap).forEach(stat => {
+            const element = document.querySelector(`[data-stat="${stat}"]`);
+            if (element) {
+                element.textContent = formatStatValue(stat, statMap[stat]);
+            }
+        });
     });
 }
 

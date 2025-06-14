@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.removeFromCart = function(productId) {
-        const itemIndex = cart.findIndex(item => item.id === productId);
+        const itemIndex = cart.findIndex(item => item._id === productId);
         if (itemIndex !== -1) {
             const itemName = cart[itemIndex].name;
             cart.splice(itemIndex, 1);
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.updateQuantity = function(productId, change) {
-        const item = cart.find(item => item.id === productId);
+        const item = cart.find(item => item._id === productId);
         if (item) {
             const newQuantity = item.quantity + change;
             if (newQuantity <= 0) {
@@ -121,12 +121,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>${item.name}</h3>
                     <p>EGP ${item.price.toFixed(2)}</p>
                     <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                        <button class="quantity-btn" onclick="updateQuantity('${item._id}', -1)">-</button>
                         <span class="quantity">${item.quantity}</span>
-                        <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                        <button class="quantity-btn" onclick="updateQuantity('${item._id}', 1)">+</button>
                     </div>
                 </div>
-                <button class="remove-item" onclick="removeFromCart('${item.id}')">
+                <button class="remove-item" onclick="removeFromCart('${item._id}')">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -153,25 +153,35 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCheckoutButton();
 
     // Make addToCart function available globally
-    window.addToCart = function(productId, productName, productPrice, productImage) {
-        // Check if item already exists in cart
-        const existingItem = cart.find(item => item.id === productId);
+    window.addToCart = function(productId) {
+        // Retrieve the full product object using the globally available getProductById from products.js
+        const productToAdd = getProductById(productId);
+
+        if (!productToAdd) {
+            console.error('Product not found for ID:', productId);
+            showNotification('Error adding product to cart.', 'error');
+            return;
+        }
+
+        // Check if item already exists in cart using _id
+        const existingItem = cart.find(item => item._id === productId);
         
         if (existingItem) {
             existingItem.quantity += 1;
-            showNotification(`${productName} quantity increased!`);
+            showNotification(`${productToAdd.name} quantity increased!`);
         } else {
             // Ensure the image path is correct for the cart page
-            const cartImagePath = productImage.startsWith('../../') ? productImage : `../../${productImage}`;
+            // Assuming productToAdd.image is like 'assets/images/product.jpg'
+            const cartImagePath = productToAdd.image.startsWith('../../') ? productToAdd.image : `../../${productToAdd.image}`;
             
             cart.push({
-                id: productId,
-                name: productName,
-                price: parseFloat(productPrice),
+                _id: productToAdd._id, // Use MongoDB's _id
+                name: productToAdd.name,
+                price: parseFloat(productToAdd.price),
                 image: cartImagePath,
                 quantity: 1
             });
-            showNotification(`${productName} added to cart!`);
+            showNotification(`${productToAdd.name} added to cart!`);
         }
         
         // Save cart to localStorage

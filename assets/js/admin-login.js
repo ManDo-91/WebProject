@@ -4,46 +4,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle admin login form submission
     if (adminLoginForm) {
-        adminLoginForm.addEventListener('submit', function(e) {
+        adminLoginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const remember = document.getElementById('remember').checked;
 
-            // Basic validation
             if (!email || !password) {
                 showError('Please fill in all fields');
                 return;
             }
 
-            // Get admin data from localStorage
-            const adminData = JSON.parse(localStorage.getItem('adminData'));
-            
-            // Check if admin exists and credentials match
-            if (adminData && adminData.email === email && adminData.password === password) {
-                // Store admin session
-                localStorage.setItem('currentUser', JSON.stringify({
-                    role: 'admin',
-                    email: email,
-                    name: adminData.fullname,
-                    position: adminData.position,
-                    department: adminData.department
-                }));
-
-                // Handle remember me
-                if (remember) {
-                    localStorage.setItem('rememberedEmail', email);
-                    localStorage.setItem('rememberedPassword', password);
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    if (data.isAdmin) {
+                        localStorage.setItem('currentUser', JSON.stringify(data));
+                        if (remember) {
+                            localStorage.setItem('rememberedEmail', email);
+                            localStorage.setItem('rememberedPassword', password);
+                        } else {
+                            localStorage.removeItem('rememberedEmail');
+                            localStorage.removeItem('rememberedPassword');
+                        }
+                        window.location.href = '../admin/admin-dashboard.html';
+                    } else {
+                        showError('Access denied: Not an admin account');
+                    }
                 } else {
-                    localStorage.removeItem('rememberedEmail');
-                    localStorage.removeItem('rememberedPassword');
+                    showError(data.message || 'Invalid credentials');
                 }
-
-                // Redirect to admin dashboard
-                window.location.href = '../admin/dashboard.html';
-            } else {
-                showError('Invalid admin credentials');
+            } catch (error) {
+                showError('An error occurred during login. Please try again.');
             }
         });
     }
