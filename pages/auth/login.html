@@ -6,161 +6,266 @@
     <title>Login - Scentify</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 8s ease-in-out infinite;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         .login-container {
             max-width: 400px;
             margin: 4rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 2.5rem 2rem 2rem 2rem;
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(255,255,255,0.25);
+            position: relative;
+            animation: fadeInUp 0.8s cubic-bezier(.39,.575,.56,1.000);
+            transition: box-shadow 0.3s cubic-bezier(.39,.575,.56,1.000), transform 0.3s cubic-bezier(.39,.575,.56,1.000);
         }
-
+        .login-container:hover {
+            box-shadow: 0 16px 48px 0 rgba(31, 38, 135, 0.22);
+            transform: translateY(-4px) scale(1.015);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .login-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            animation: floatLogo 3.5s ease-in-out infinite;
+        }
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .login-logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(66,105,138,0.10);
+        }
         .login-title {
             text-align: center;
-            margin-bottom: 2rem;
-            color: #333;
-            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
-
+        .login-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.08rem;
+            margin-bottom: 1.7rem;
+            font-weight: 500;
+        }
         .login-form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.3rem;
         }
-
         .form-group {
+            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
         }
-
         .form-group label {
-            color: #666;
-            font-size: 0.9rem;
+            color: #64748b;
+            font-size: 0.97rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
-
         .form-group input {
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 0.9rem 1rem 0.9rem 2.7rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 1rem;
+            background: rgba(255,255,255,0.85);
+            transition: border 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 4px rgba(66,105,138,0.04);
         }
-
         .form-group input:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: #42698a;
+            box-shadow: 0 0 0 2px #c7d2fe;
+            background: #fff;
         }
-
-        .role-selector {
+        .form-group .input-icon {
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-35%);
+            color: #b6c2d6;
+            font-size: 1.2rem;
+            line-height: 1;
+            pointer-events: none;
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            align-items: center;
+            height: 100%;
         }
-
-        .role-option {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
+        .form-group input[type="email"] + .input-icon,
+        .form-group input#email + .input-icon {
+            transform: translateY(-25%);
         }
-
-        .role-option.active {
-            border-color: var(--primary-color);
-            background: rgba(0, 123, 255, 0.1);
-        }
-
-        .role-option i {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #666;
-        }
-
-        .role-option.active i {
-            color: var(--primary-color);
-        }
-
-        .login-button {
-            padding: 1rem;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .login-button:hover {
-            background: var(--hover-color);
-        }
-
-        .error-message {
-            color: #dc3545;
-            text-align: center;
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #666;
-        }
-
-        .register-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-
         .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.97rem;
         }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .remember-me span {
+            color: #64748b;
         }
-
-        .remember-me input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-
         .forgot-password {
-            color: var(--primary-color);
+            color: #42698a;
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
         }
-
         .forgot-password:hover {
-            text-decoration: underline;
+            color: #1e293b;
         }
-
-        .admin-register-link {
+        .login-button {
+            padding: 1rem;
+            background: linear-gradient(90deg, #42698a 0%, #4a90e2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(66,105,138,0.10);
+            transition: background 0.2s, transform 0.15s;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-button:active {
+            transform: scale(0.97);
+        }
+        .login-button::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.25);
+            border-radius: 100%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+            z-index: 1;
+        }
+        .login-button:active::after {
+            width: 200px;
+            height: 200px;
+            transition: 0s;
+        }
+        .error-message {
+            color: #e53e3e;
             text-align: center;
             margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #666;
+            padding: 0.7rem 0.5rem;
+            background: #fff5f5;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.98rem;
         }
-
-        .admin-register-link a {
-            color: var(--primary-color);
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0 0.5rem 0;
+            color: #b6c2d6;
+            font-size: 0.97rem;
+            font-weight: 500;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1.5px solid #e2e8f0;
+        }
+        .divider:not(:empty)::before {
+            margin-right: .75em;
+        }
+        .divider:not(:empty)::after {
+            margin-left: .75em;
+        }
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem 0.5rem;
+            border-radius: 8px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            color: #42698a;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.18s, box-shadow 0.18s;
+            box-shadow: 0 1px 4px rgba(66,105,138,0.04);
+        }
+        .social-btn:hover {
+            background: #e0e7ff;
+            box-shadow: 0 2px 8px rgba(66,105,138,0.10);
+        }
+        .social-btn .fab {
+            font-size: 1.2rem;
+        }
+        .register-link, .admin-login-link {
+            text-align: center;
+            margin-top: 1rem;
+            color: #64748b;
+            font-size: 1rem;
+        }
+        .register-link a, .admin-login-link a {
+            color: #42698a;
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
         }
-
-        .admin-register-link a:hover {
+        .register-link a:hover, .admin-login-link a:hover {
+            color: #4a90e2;
             text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .login-container {
+                margin: 2rem 1rem;
+                padding: 1.5rem 0.5rem;
+            }
+            .login-title {
+                font-size: 1.3rem;
+            }
+            .login-logo img {
+                width: 44px;
+                height: 44px;
+            }
         }
     </style>
 </head>
@@ -183,14 +288,20 @@
 
     <main>
         <div class="login-container">
+            <div class="login-logo">
+                <img src="../../assets/images/logo.jpg" alt="Scentify Logo">
+            </div>
             <h1 class="login-title">Welcome Back</h1>
+            <div class="login-subtitle">Sign in to your account to continue</div>
             <form class="login-form" id="loginForm" method="POST">
                 <div class="form-group">
                     <label for="email">Email</label>
+                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
                     <input type="email" id="email" name="email" required placeholder="Enter your email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
                     <input type="password" id="password" name="password" required placeholder="Enter your password">
                 </div>
                 <div class="form-options">
