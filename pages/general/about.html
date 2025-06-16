@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Story - Scentify</title>
+    <title>About Us - Scentify</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -15,8 +15,8 @@
 
         .hero-section {
             position: relative;
-            height: 500px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/images/about-hero.jpg');
+            height: 600px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../../assets/images/about/store.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -24,44 +24,62 @@
             justify-content: center;
             text-align: center;
             color: white;
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
         }
 
         .hero-content {
             max-width: 800px;
             padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .hero-content p {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         .story-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
             align-items: center;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .story-image {
             position: relative;
-            height: 400px;
+            height: 500px;
             overflow: hidden;
-            border-radius: 12px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .story-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.05);
         }
 
         .story-content {
@@ -72,6 +90,17 @@
             font-size: 2.5rem;
             color: #2c3e50;
             margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .story-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
         }
 
         .story-content p {
@@ -82,9 +111,9 @@
         }
 
         .values-section {
+            padding: 4rem 0;
             background: #f8f9fa;
-            padding: 4rem 2rem;
-            margin: 4rem -2rem;
+            margin-bottom: 6rem;
         }
 
         .values-grid {
@@ -93,25 +122,26 @@
             gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .value-card {
             background: white;
             padding: 2rem;
-            border-radius: 12px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .value-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
         }
 
-        .value-card i {
+        .value-icon {
             font-size: 2.5rem;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .value-card h3 {
@@ -126,91 +156,173 @@
         }
 
         .team-section {
-            text-align: center;
             padding: 4rem 0;
-        }
-
-        .team-section h2 {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 2rem;
+            margin-bottom: 6rem;
         }
 
         .team-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .team-member {
             text-align: center;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
-        .team-member img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .member-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            margin-bottom: 1rem;
+            transition: transform 0.5s ease;
         }
 
-        .team-member h3 {
+        .team-member:hover .member-image img {
+            transform: scale(1.1);
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-info h3 {
+            font-size: 1.3rem;
             color: #2c3e50;
             margin-bottom: 0.5rem;
         }
 
-        .team-member p {
+        .member-info p {
             color: #666;
-            font-style: italic;
+            font-size: 0.9rem;
         }
 
-        .cta-section {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/images/cta-bg.jpg');
-            background-size: cover;
-            background-position: center;
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #666;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .commitment-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            margin: 4rem -2rem -4rem;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 6rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .cta-content {
-            max-width: 600px;
+        .commitment-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .commitment-content {
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .cta-content h2 {
+        .commitment-content ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            text-align: left;
+        }
+
+        .commitment-content li {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .commitment-content li::before {
+            content: '✓';
+            color: #fff;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .contact-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+            border-radius: 20px;
+            margin-bottom: 4rem;
+        }
+
+        .contact-section h2 {
             font-size: 2.5rem;
+            color: #2c3e50;
             margin-bottom: 1.5rem;
         }
 
-        .cta-content p {
+        .contact-section p {
+            color: #666;
             font-size: 1.1rem;
             margin-bottom: 2rem;
-            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .cta-button {
-            display: inline-block;
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary, .btn-secondary {
             padding: 1rem 2rem;
-            background: var(--primary-color);
-            color: white;
+            border-radius: 30px;
             text-decoration: none;
-            border-radius: 6px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
-        .cta-button:hover {
-            background: var(--hover-color);
-            transform: translateY(-2px);
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
         }
 
-        @media (max-width: 992px) {
-            .story-section {
-                grid-template-columns: 1fr;
-            }
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
 
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 1024px) {
             .values-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -222,7 +334,11 @@
 
         @media (max-width: 768px) {
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
+            }
+
+            .story-section {
+                grid-template-columns: 1fr;
             }
 
             .values-grid {
@@ -233,8 +349,12 @@
                 grid-template-columns: 1fr;
             }
 
-            .story-image {
-                height: 300px;
+            .commitment-content ul {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -253,97 +373,145 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
-            <div class="cart-icon">
-                <a href="../cart/cart.html" id="icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
-                </a>
+            <div class="nav-icons">
+                <div class="login-icon">
+                    <a href="../auth/login.html" id="login-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+                <div class="cart-icon">
+                    <a href="../cart/cart.html" id="icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
 
-    <main>
+    <main class="about-page">
         <section class="hero-section">
             <div class="hero-content">
                 <h1>Our Story</h1>
-                <p>Crafting memorable fragrances since 2010</p>
+                <p class="tagline">Crafting unforgettable fragrance experiences since 2010</p>
             </div>
         </section>
 
         <div class="about-main">
             <section class="story-section">
                 <div class="story-image">
-                    <img src="../../assets/images/store-front.jpeg" alt="Scentify Store Front">
+                    <img src="../../assets/images/about/store.jpg" alt="Scentify Store">
                 </div>
                 <div class="story-content">
-                    <h2>The Beginning</h2>
-                    <p>Founded in 2010, Scentify began as a small boutique in Cairo with a simple mission: to bring the world's finest fragrances to discerning customers. Our founder, Sarah Ahmed, combined her passion for perfumery with years of experience in the luxury retail industry to create a unique shopping experience.</p>
-                    <p>What started as a curated collection of niche fragrances has grown into Egypt's premier destination for luxury perfumes, with a carefully selected range of both classic and contemporary scents from around the world.</p>
-                </div>
-            </section>
-
-            <section class="story-section">
-                <div class="story-content">
-                    <h2>Our Philosophy</h2>
-                    <p>At Scentify, we believe that fragrance is more than just a scent – it's an expression of personality, a trigger for memories, and a source of confidence. We're committed to helping our customers find their signature scent through personalized consultations and an expertly curated collection.</p>
-                    <p>Our team of fragrance specialists undergoes rigorous training to understand not just the notes and compositions of our perfumes, but also the art of matching the right scent to each individual's personality and preferences.</p>
-                </div>
-                <div class="story-image">
-                    <img src="../../assets/images/perfume-collection.png" alt="Luxury Perfume Collection">
+                    <h2>Who We Are</h2>
+                    <p>Scentify was born from a passion for exceptional fragrances and a desire to make luxury perfumes accessible to everyone. What started as a small boutique in New York has grown into a global destination for fragrance enthusiasts.</p>
+                    <p>Our mission is to curate the finest collection of perfumes while providing an unparalleled shopping experience. We believe that the right fragrance can transform your mood, boost your confidence, and create lasting memories.</p>
                 </div>
             </section>
 
             <section class="values-section">
                 <div class="values-grid">
                     <div class="value-card">
-                        <i class="fas fa-gem"></i>
+                        <div class="value-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
                         <h3>Quality</h3>
-                        <p>We partner directly with renowned perfume houses and guarantee the authenticity of every fragrance we sell.</p>
+                        <p>We source only the finest ingredients and work with renowned perfumers to create exceptional fragrances.</p>
                     </div>
                     <div class="value-card">
-                        <i class="fas fa-heart"></i>
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
                         <h3>Passion</h3>
-                        <p>Our love for fragrances drives us to continuously explore and bring you the world's finest scents.</p>
+                        <p>Our love for perfumery drives us to constantly innovate and bring you unique scent experiences.</p>
                     </div>
                     <div class="value-card">
-                        <i class="fas fa-star"></i>
-                        <h3>Excellence</h3>
-                        <p>From product selection to customer service, we strive for excellence in everything we do.</p>
+                        <div class="value-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Sustainability</h3>
+                        <p>We're committed to eco-friendly practices and sustainable sourcing in everything we do.</p>
                     </div>
                 </div>
             </section>
 
             <section class="team-section">
-                <h2>Meet Our Team</h2>
                 <div class="team-grid">
                     <div class="team-member">
-                        <img src="assets/images/team-1.jpg" alt="Sarah Ahmed">
-                        <h3>Sarah Ahmed</h3>
-                        <p>Founder & CEO</p>
+                        <div class="member-image">
+                            <img src="../../assets/images/team/ceo.jpg" alt="CEO">
+                        </div>
+                        <div class="member-info">
+                            <h3>Mohamed mahmoud</h3>
+                            <p>Founder & CEO</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
                     </div>
                     <div class="team-member">
-                        <img src="assets/images/team-2.jpg" alt="Mohamed Hassan">
-                        <h3>Mohamed Hassan</h3>
-                        <p>Head of Operations</p>
+                        <div class="member-image">
+                            <img src="../../assets/images/team/creative.jpg" alt="Creative Director">
+                        </div>
+                        <div class="member-info">
+                            <h3>Zeyad Shedeed</h3>
+                            <p>Creative Director</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
                     </div>
                     <div class="team-member">
-                        <img src="assets/images/team-3.jpg" alt="Nour El-Din">
-                        <h3>Nour El-Din</h3>
-                        <p>Lead Fragrance Specialist</p>
+                        <div class="member-image">
+                            <img src="../../assets/images/team/perfumer.jpg" alt="Master Perfumer">
+                        </div>
+                        <div class="member-info">
+                            <h3>Mostafa Mokhtar</h3>
+                            <p>Master Perfumer</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
                     </div>
                     <div class="team-member">
-                        <img src="assets/images/team-4.jpg" alt="Laila Kamel">
-                        <h3>Laila Kamel</h3>
-                        <p>Customer Experience Manager</p>
+                        <div class="member-image">
+                            <img src="../../assets/images/team/operations.jpg" alt="Operations Director">
+                        </div>
+                        <div class="member-info">
+                            <h3>Youssef Essam</h3>
+                            <p>Operations Director</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="cta-section">
-                <div class="cta-content">
-                    <h2>Experience the Difference</h2>
-                    <p>Visit our store or shop online to discover your perfect scent. Our fragrance specialists are here to guide you on your journey.</p>
-                    <a href="products.html" class="cta-button">Shop Now</a>
+            <section class="commitment-section">
+                <h2>Our Commitment</h2>
+                <div class="commitment-content">
+                    <ul>
+                        <li>Providing exceptional customer service</li>
+                        <li>Offering authentic, high-quality products</li>
+                        <li>Creating a sustainable business model</li>
+                        <li>Supporting emerging perfumers</li>
+                        <li>Educating customers about fragrances</li>
+                        <li>Maintaining ethical business practices</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="contact-section">
+                <h2>Get in Touch</h2>
+                <p>We'd love to hear from you! Whether you have questions about our products, want to share your experience, or are interested in collaborating, our team is here to help.</p>
+                <div class="contact-buttons">
+                    <a href="contact.html" class="btn-primary">Contact Us</a>
+                    <a href="../shop/Products.html" class="btn-secondary">Shop Now</a>
                 </div>
             </section>
         </div>
@@ -393,6 +561,15 @@
         </div>
     </footer>
 
-    <script src="assets/js/script.js"></script>
+    <script src="../../assets/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer
+            loadHeader();
+            loadFooter();
+        });
+    </script>
+    <script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/06/16/09/20250616095704-JGHJLMH8.js"></script>
 </body>
 </html> 
