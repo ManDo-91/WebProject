@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         summaryItems.innerHTML = cart.map(item => `
             <div class="summary-item">
-                <img src="${item.image}" alt="${item.name}">
+                <img src="/${item.image}" alt="${item.name}">
                 <div class="summary-item-info">
                     <div class="summary-item-name">${item.name}</div>
                     <div class="summary-item-quantity">Qty: ${item.quantity}</div>
@@ -76,7 +76,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // --- NEW: Send order to backend API ---
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (!currentUser || !currentUser.email) {
+            const token = localStorage.getItem('token');
+            
+            console.log('Current User:', currentUser);
+            console.log('Token:', token);
+            
+            if (!currentUser || !token) {
+                console.log('Missing user data or token');
                 showNotification('You must be logged in to place an order', 'error');
                 return;
             }
@@ -86,23 +92,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Prepare order items for the backend (only productId and quantity needed for now)
+            // Prepare order items for the backend
             const orderItems = cart.map(item => ({
-                productId: item._id, // Assuming _id is available from product object
+                productId: item._id,
                 quantity: item.quantity
             }));
+
+            console.log('Sending order with items:', orderItems);
+            console.log('Using token:', token);
 
             try {
                 const response = await fetch('http://localhost:5000/api/orders', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-user-email': currentUser.email // Send user email for authentication
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({ items: orderItems })
                 });
 
+                console.log('Response status:', response.status);
                 const data = await response.json();
+                console.log('Response data:', data);
 
                 if (response.ok) {
                     localStorage.removeItem('cart');
@@ -110,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Redirect to orders page after 2 seconds
                     setTimeout(() => {
-                        window.location.href = '../account/orders.html'; // Redirect to user's orders page
+                        window.location.href = '../account/orders.html';
                     }, 2000);
                 } else {
                     showNotification(data.message || 'Failed to place order', 'error');
