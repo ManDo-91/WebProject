@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="fas fa-shopping-cart"></i>
                     <h3>Your cart is empty</h3>
                     <p>Looks like you haven't added any items to your cart yet.</p>
-                    <a href="products.html" class="continue-shopping">Continue Shopping</a>
+                    <a href="../shop/Products.html" class="continue-shopping">Continue Shopping</a>
                 </div>
             `;
             updateCartSummary();
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cartItemsContainer.innerHTML = cart.map(item => `
             <div class="cart-item">
-                <img src="../${item.image}" alt="${item.name}">
+                <img src="/${item.image}" alt="${item.name}" onerror="this.src='../../../assets/images/placeholder.jpg'">
                 <div class="cart-item-details">
                     <h3>${item.name}</h3>
                     <p>EGP ${item.price.toFixed(2)}</p>
@@ -153,49 +153,63 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCheckoutButton();
 
     // Make addToCart function available globally
-    window.addToCart = function(productId) {
-        // Retrieve the full product object using the globally available getProductById from products.js
-        const productToAdd = getProductById(productId);
+    window.addToCart = function(productId, productName, productPrice, productImage, quantity = 1) {
+        try {
+            // Check if we received a full product object or just the ID
+            let productToAdd;
+            if (typeof productId === 'object') {
+                productToAdd = productId;
+            } else {
+                // If we only got the ID, try to find the product in the global products array
+                productToAdd = window.products?.find(p => p._id === productId);
+                if (!productToAdd) {
+                    // If not found in global array, use the provided parameters
+                    productToAdd = {
+                        _id: productId,
+                        name: productName,
+                        price: parseFloat(productPrice),
+                        image: productImage
+                    };
+                }
+            }
 
-        if (!productToAdd) {
-            console.error('Product not found for ID:', productId);
-            showNotification('Error adding product to cart.', 'error');
-            return;
-        }
+            if (!productToAdd || !productToAdd._id) {
+                throw new Error('Invalid product data');
+            }
 
-        // Check if item already exists in cart using _id
-        const existingItem = cart.find(item => item._id === productId);
-        
-        if (existingItem) {
-            existingItem.quantity += 1;
-            showNotification(`${productToAdd.name} quantity increased!`);
-        } else {
-            // Ensure the image path is correct for the cart page
-            // Assuming productToAdd.image is like 'assets/images/product.jpg'
-            const cartImagePath = productToAdd.image.startsWith('../../') ? productToAdd.image : `../../${productToAdd.image}`;
+            // Check if item already exists in cart
+            const existingItem = cart.find(item => item._id === productToAdd._id);
             
-            cart.push({
-                _id: productToAdd._id, // Use MongoDB's _id
-                name: productToAdd.name,
-                price: parseFloat(productToAdd.price),
-                image: cartImagePath,
-                quantity: 1
-            });
-            showNotification(`${productToAdd.name} added to cart!`);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+                showNotification(`${productToAdd.name} quantity increased!`);
+            } else {
+                cart.push({
+                    _id: productToAdd._id,
+                    name: productToAdd.name,
+                    price: parseFloat(productToAdd.price),
+                    image: productToAdd.image,
+                    quantity: quantity
+                });
+                showNotification(`${productToAdd.name} added to cart!`);
+            }
+            
+            // Save cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Update cart display if on cart page
+            if (cartItemsContainer) {
+                displayCartItems();
+            }
+            
+            // Update checkout button state
+            updateCheckoutButton();
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            showNotification('Error adding product to cart.', 'error');
         }
-        
-        // Save cart to localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Update cart count
-        updateCartCount();
-        
-        // Update cart display if on cart page
-        if (cartItemsContainer) {
-            displayCartItems();
-        }
-        
-        // Update checkout button state
-        updateCheckoutButton();
     };
 });
