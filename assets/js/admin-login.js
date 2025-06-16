@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    if (data.isAdmin) {
-                        localStorage.setItem('currentUser', JSON.stringify(data));
+                    if (data.user && data.user.role === 'admin') {
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                        localStorage.setItem('token', data.token);
                         if (remember) {
                             localStorage.setItem('rememberedEmail', email);
                             localStorage.setItem('rememberedPassword', password);
@@ -60,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Error message handling
 function showError(message) {
-    const errorElement = document.getElementById('errorMessage');
-    if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
+    const errorMessage = document.getElementById('errorMessage');
+    if (errorMessage) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
         setTimeout(() => {
-            errorElement.style.display = 'none';
+            errorMessage.style.display = 'none';
         }, 3000);
     }
 } 
