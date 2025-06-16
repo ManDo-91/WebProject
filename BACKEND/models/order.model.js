@@ -1,22 +1,10 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    orderNumber: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    customer: {
-        name: String,
-        email: String,
-        phone: String,
-        address: {
-            street: String,
-            city: String,
-            state: String,
-            zipCode: String,
-            country: String
-        }
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     items: [{
         product: {
@@ -34,7 +22,7 @@ const orderSchema = new mongoose.Schema({
             required: true
         }
     }],
-    totalAmount: {
+    total: {
         type: Number,
         required: true
     },
@@ -68,13 +56,9 @@ const orderSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Calculate total amount before saving
+// Pre-save hook to calculate total amount. Ensure 'total' is used consistently if 'totalAmount' was a typo.
 orderSchema.pre('save', function(next) {
-    if (this.isModified('items')) {
-        this.totalAmount = this.items.reduce((total, item) => {
-            return total + (item.price * item.quantity);
-        }, 0) + this.shippingCost;
-    }
+    this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     next();
 });
 
