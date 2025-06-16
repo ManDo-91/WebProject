@@ -7,24 +7,66 @@ const productController = {
     // Create new product
     createProduct: async (req, res) => {
         try {
-            const productData = req.body;
-            
-            // Handle image uploads
-            if (req.files) {
-                const uploadPromises = req.files.map(file => uploadToCloudinary(file));
-                const uploadedImages = await Promise.all(uploadPromises);
-                productData.images = uploadedImages.map(img => img.secure_url);
-                productData.mainImage = uploadedImages[0].secure_url;
+            console.log('Creating new product...');
+            console.log('Request body:', req.body);
+            console.log('Request files:', req.files);
+
+            // Handle image upload
+            let imageUrl = '';
+            if (req.files && req.files.images) {
+                try {
+                    const result = await uploadToCloudinary(req.files.images);
+                    imageUrl = result.secure_url;
+                    console.log('Image uploaded successfully:', imageUrl);
+                } catch (uploadError) {
+                    console.error('Image upload error:', uploadError);
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Failed to upload product image'
+                    });
+                }
             }
 
-            const product = new Product(productData);
-            await product.save();
+            // Create product object
+            const productData = {
+                name: req.body.name,
+                slug: req.body.slug || req.body.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                description: req.body.description,
+                shortDescription: req.body.shortDescription || req.body.description?.substring(0, 200),
+                price: parseFloat(req.body.price) || 0,
+                stock: parseInt(req.body.stock) || 0,
+                category: req.body.category,
+                brand: req.body.brand || 'Scentify',
+                sku: req.body.sku || `SKU-${Date.now()}`,
+                images: imageUrl ? [imageUrl] : [],
+                status: req.body.status || 'published',
+                isNew: req.body.isNew === 'true',
+                isFeatured: req.body.isFeatured === 'true',
+                ratings: [],
+                reviews: [],
+                sales: {
+                    total: 0,
+                    lastMonth: 0
+                }
+            };
 
-            logger.info(`New product created: ${product._id}`);
-            res.status(201).json(product);
+            console.log('Creating product with data:', productData);
+
+            // Create product in database
+            const product = await Product.create(productData);
+            console.log('Product created successfully:', product);
+
+            res.status(201).json({
+                success: true,
+                message: 'Product created successfully',
+                data: product
+            });
         } catch (error) {
-            logger.error('Product creation error:', error);
-            res.status(400).json({ message: error.message });
+            console.error('Error creating product:', error);
+            res.status(500).json({
+                success: false,
+                message: error.message || 'Failed to create product'
+            });
         }
     },
 
