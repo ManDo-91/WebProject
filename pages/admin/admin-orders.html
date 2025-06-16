@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Admin Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .orders-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-details {
+            flex: 1;
+        }
+
+        .stat-details h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .stat-number {
+            margin: 0.5rem 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.negative {
+            color: #f44336;
+        }
+
+        .orders-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .orders-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .orders-filters {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            width: 250px;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .orders-table th {
+            font-weight: 500;
+            color: #666;
+            background: #f8f9fa;
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.shipped {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-badge.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-button {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button.view {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .action-button.edit {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .action-button.delete {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .action-button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <img src="../../assets/images/logo.jpg" alt="Scentify Logo">
+                <h2>Scentify Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="admin-products.html"><i class="fas fa-box"></i> Products</a></li>
+                    <li class="active"><a href="admin-orders.html"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+                    <li><a href="admin-analytics.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="admin-users.html"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="../auth/admin-login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Order Management</h1>
+                <div class="admin-header-actions">
+                    <div class="date-filter">
+                        <select id="timeRange">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Orders Overview -->
+            <section class="orders-overview">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Total Orders</h3>
+                        <p class="stat-number">1,234</p>
+                        <p class="stat-change positive">+12.5% from last month</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Pending Orders</h3>
+                        <p class="stat-number">45</p>
+                        <p class="stat-change negative">+5.2% from last month</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Shipped Orders</h3>
+                        <p class="stat-number">89</p>
+                        <p class="stat-change positive">+8.3% from last month</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Delivered Orders</h3>
+                        <p class="stat-number">1,100</p>
+                        <p class="stat-change positive">+15.7% from last month</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Table -->
+            <section class="orders-section">
+                <div class="orders-header">
+                    <h2>Recent Orders</h2>
+                    <div class="orders-filters">
+                        <div class="search-box">
+                            <input type="text" id="orderSearch" placeholder="Search orders...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="filter-group">
+                            <select id="statusFilter">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-001</td>
+                                <td>John Doe</td>
+                                <td>2024-02-20</td>
+                                <td>$299.99</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-button view"><i class="fas fa-eye"></i></button>
+                                        <button class="action-button edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-button delete"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-002</td>
+                                <td>Jane Smith</td>
+                                <td>2024-02-19</td>
+                                <td>$199.99</td>
+                                <td><span class="status-badge processing">Processing</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-button view"><i class="fas fa-eye"></i></button>
+                                        <button class="action-button edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-button delete"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-003</td>
+                                <td>Mike Johnson</td>
+                                <td>2024-02-18</td>
+                                <td>$499.99</td>
+                                <td><span class="status-badge shipped">Shipped</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-button view"><i class="fas fa-eye"></i></button>
+                                        <button class="action-button edit"><i class="fas fa-edit"></i></button>
+                                        <button class="action-button delete"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Order Status Update Modal -->
+    <div id="orderStatusModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Order Status</h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="orderStatus">Order Status</label>
+                    <select id="orderStatus" class="form-control">
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="statusNotes">Notes (Optional)</label>
+                    <textarea id="statusNotes" class="form-control" rows="3" placeholder="Add any notes about the status update..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-button" onclick="closeOrderStatusModal()">Cancel</button>
+                <button class="save-button" onclick="updateOrderStatus()">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/admin.js"></script>
+    <script>
+        let currentOrderId = null;
+
+        // Fetch and display orders
+        async function fetchOrders() {
+            try {
+                const token = localStorage.getItem('token');
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                
+                if (!token || !currentUser || currentUser.role !== 'admin') {
+                    window.location.href = '../auth/admin-login.html';
+                    return;
+                }
+
+                const response = await fetch('http://localhost:5000/api/orders', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'x-user-email': currentUser.email
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+
+                const orders = await response.json();
+                displayOrders(orders);
+                updateOrderStats(orders);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+                alert('Failed to load orders. Please try again.');
+            }
+        }
+
+        function displayOrders(orders) {
+            const tbody = document.querySelector('.orders-table tbody');
+            tbody.innerHTML = '';
+
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${order._id.slice(-6)}</td>
+                    <td>${order.user.fullname}</td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                    <td><span class="status-badge ${order.status.toLowerCase()}">${order.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-button view" data-order-id="${order._id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-button edit" data-order-id="${order._id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-button delete" data-order-id="${order._id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateOrderStats(orders) {
+            const totalOrders = orders.length;
+            const pendingOrders = orders.filter(order => order.status === 'pending').length;
+            const shippedOrders = orders.filter(order => order.status === 'shipped').length;
+            const deliveredOrders = orders.filter(order => order.status === 'delivered').length;
+
+            document.querySelector('.stat-card:nth-child(1) .stat-number').textContent = totalOrders;
+            document.querySelector('.stat-card:nth-child(2) .stat-number').textContent = pendingOrders;
+            document.querySelector('.stat-card:nth-child(3) .stat-number').textContent = shippedOrders;
+            document.querySelector('.stat-card:nth-child(4) .stat-number').textContent = deliveredOrders;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize search functionality
+            const searchInput = document.getElementById('orderSearch');
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('.orders-table tbody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            // Initialize status filter
+            const statusFilter = document.getElementById('statusFilter');
+            statusFilter.addEventListener('change', function(e) {
+                const status = e.target.value;
+                const rows = document.querySelectorAll('.orders-table tbody tr');
+                
+                rows.forEach(row => {
+                    if (status === 'all') {
+                        row.style.display = '';
+                    } else {
+                        const rowStatus = row.querySelector('.status-badge').textContent.toLowerCase();
+                        row.style.display = rowStatus === status ? '' : 'none';
+                    }
+                });
+            });
+
+            // Initialize action buttons
+            document.querySelector('.orders-table').addEventListener('click', function(e) {
+                const button = e.target.closest('.action-button');
+                if (!button) return;
+
+                const orderId = button.dataset.orderId;
+                const action = button.classList.contains('view') ? 'view' :
+                             button.classList.contains('edit') ? 'edit' : 'delete';
+
+                if (action === 'view') {
+                    // Implement view order details
+                    console.log('View order:', orderId);
+                } else if (action === 'edit') {
+                    // Show status update modal
+                    currentOrderId = orderId;
+                    showOrderStatusModal(orderId);
+                } else if (action === 'delete') {
+                    // Implement delete order
+                    if (confirm('Are you sure you want to delete this order?')) {
+                        console.log('Delete order:', orderId);
+                    }
+                }
+            });
+
+            // Fetch orders when page loads
+            fetchOrders();
+        });
+
+        function showOrderStatusModal(orderId) {
+            const modal = document.getElementById('orderStatusModal');
+            modal.style.display = 'block';
+            
+            // Fetch current order status
+            fetch(`http://localhost:5000/api/orders/${orderId}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'x-user-email': JSON.parse(localStorage.getItem('currentUser')).email
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Failed to load order details');
+                    });
+                }
+                return response.json();
+            })
+            .then(order => {
+                document.getElementById('orderStatus').value = order.status;
+                document.getElementById('statusNotes').value = order.notes || '';
+            })
+            .catch(error => {
+                console.error('Error fetching order:', error);
+                alert(error.message || 'Failed to load order details. Please try again.');
+                closeOrderStatusModal();
+            });
+        }
+
+        function closeOrderStatusModal() {
+            const modal = document.getElementById('orderStatusModal');
+            modal.style.display = 'none';
+            currentOrderId = null;
+        }
+
+        function updateOrderStatus() {
+            if (!currentOrderId) return;
+
+            const newStatus = document.getElementById('orderStatus').value;
+            const notes = document.getElementById('statusNotes').value;
+
+            fetch(`http://localhost:5000/api/orders/${currentOrderId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'x-user-email': JSON.parse(localStorage.getItem('currentUser')).email
+                },
+                body: JSON.stringify({
+                    status: newStatus,
+                    notes: notes
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Failed to update order status');
+                    });
+                }
+                return response.json();
+            })
+            .then(updatedOrder => {
+                // Update the order in the table
+                const row = document.querySelector(`[data-order-id="${currentOrderId}"]`).closest('tr');
+                const statusCell = row.querySelector('.status-badge');
+                statusCell.className = `status-badge ${newStatus.toLowerCase()}`;
+                statusCell.textContent = newStatus;
+
+                // Close modal and refresh orders
+                closeOrderStatusModal();
+                fetchOrders();
+                alert('Order status updated successfully');
+            })
+            .catch(error => {
+                console.error('Error updating order status:', error);
+                alert(error.message || 'Failed to update order status. Please try again.');
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderStatusModal');
+            if (event.target === modal) {
+                closeOrderStatusModal();
+            }
+        }
+    </script>
+</body>
+</html> 

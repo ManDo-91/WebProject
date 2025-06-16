@@ -1,0 +1,184 @@
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="termsCheckbox" required>
+                    <label for="termsCheckbox">I have read and agree to the <a href="../../pages/general/terms.html" target="_blank">Terms & Conditions</a></label>
+                </div>
+            </div>
+
+            <div class="terms-section">
+                <h3>Privacy Policy</h3>
+                <div class="terms-content">
+                    <p>As an administrator, you acknowledge and agree to the following privacy policy:</p>
+                    <ol>
+                        <li>You will handle all user data in accordance with our privacy policy and data protection regulations.</li>
+                        <li>You will only access user data when necessary for legitimate business purposes.</li>
+                        <li>You will maintain the confidentiality of all sensitive information you encounter.</li>
+                        <li>You will implement appropriate security measures to protect user data.</li>
+                        <li>You will report any data breaches or privacy concerns immediately.</li>
+                        <li>You understand that your actions regarding user data are subject to audit and review.</li>
+                    </ol>
+                </div>
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="privacyCheckbox" required>
+                    <label for="privacyCheckbox">I have read and agree to the <a href="../../pages/general/privacy.html" target="_blank">Privacy Policy</a></label>
+                </div>
+            </div>
+
+            <form id="adminRegisterForm" class="admin-register-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <small>Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminCode">Admin Registration Code</label>
+                    <input type="text" id="adminCode" name="adminCode" required>
+                    <small>Enter the admin registration code provided by the system administrator.</small>
+                </div>
+
+                <div class="terms-section">
+                    <h3>Terms & Conditions</h3>
+                    <div class="terms-content">
+                        <p>By registering as an administrator for Scentify, you agree to the following terms and conditions:</p>
+                        <ol>
+                            <li>You will maintain the confidentiality of your admin credentials and not share them with unauthorized personnel.</li>
+                            <li>You will use your administrative privileges responsibly and only for legitimate business purposes.</li>
+                            <li>You will comply with all applicable laws and regulations while performing administrative duties.</li>
+                            <li>You will not engage in any activities that could harm the platform or its users.</li>
+                            <li>You will report any security breaches or suspicious activities immediately.</li>
+                            <li>You understand that your admin access can be revoked at any time for violations of these terms.</li>
+                        </ol>
+                    </div>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="termsCheckbox" required>
+                        <label for="termsCheckbox">I have read and agree to the <a href="../../pages/general/terms.html" target="_blank">Terms & Conditions</a></label>
+                    </div>
+                </div>
+
+                <div class="terms-section">
+                    <h3>Privacy Policy</h3>
+                    <div class="terms-content">
+                        <p>As an administrator, you acknowledge and agree to the following privacy policy:</p>
+                        <ol>
+                            <li>You will handle all user data in accordance with our privacy policy and data protection regulations.</li>
+                            <li>You will only access user data when necessary for legitimate business purposes.</li>
+                            <li>You will maintain the confidentiality of all sensitive information you encounter.</li>
+                            <li>You will implement appropriate security measures to protect user data.</li>
+                            <li>You will report any data breaches or privacy concerns immediately.</li>
+                            <li>You understand that your actions regarding user data are subject to audit and review.</li>
+                        </ol>
+                    </div>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="privacyCheckbox" required>
+                        <label for="privacyCheckbox">I have read and agree to the <a href="../../pages/general/privacy.html" target="_blank">Privacy Policy</a></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="registerBtn">Register as Admin</button>
+                
+                <div class="login-link">
+                    <p>Already have an admin account? <a href="admin-login.html">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Footer content will be loaded dynamically -->
+    </footer>
+
+    <script src="../../assets/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer
+            loadHeader();
+            loadFooter();
+
+            const form = document.getElementById('adminRegisterForm');
+            const registerBtn = document.getElementById('registerBtn');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Disable submit button
+                registerBtn.disabled = true;
+                registerBtn.textContent = 'Registering...';
+
+                // Get form data
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value,
+                    confirmPassword: document.getElementById('confirmPassword').value,
+                    adminCode: document.getElementById('adminCode').value
+                };
+
+                try {
+                    // Validate passwords match
+                    if (formData.password !== formData.confirmPassword) {
+                        throw new Error('Passwords do not match');
+                    }
+
+                    // Validate password strength
+                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                    if (!passwordRegex.test(formData.password)) {
+                        throw new Error('Password does not meet security requirements');
+                    }
+
+                    // Make API call to register admin
+                    const response = await fetch('/api/admin/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Registration failed');
+                    }
+
+                    // Show success message and redirect to login
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.innerHTML = `
+                        <p>Registration successful! Please check your email for verification.</p>
+                        <p>You will be redirected to the login page in 5 seconds...</p>
+                    `;
+                    form.appendChild(successMessage);
+
+                    // Redirect to login page after 5 seconds
+                    setTimeout(() => {
+                        window.location.href = 'admin-login.html';
+                    }, 5000);
+
+                } catch (error) {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'error-message';
+                    errorMessage.textContent = error.message;
+                    form.appendChild(errorMessage);
+                } finally {
+                    // Re-enable submit button
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = 'Register as Admin';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
