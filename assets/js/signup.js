@@ -29,30 +29,32 @@ function validatePassword(password) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Signup form handling
     const signupForm = document.getElementById('signupForm');
-    if (signupForm) {
-        const passwordInput = document.getElementById('password');
-        const confirmPasswordInput = document.getElementById('confirm-password');
-        const emailInput = document.getElementById('email');
-        const adminKeyGroup = document.getElementById('adminKeyGroup');
-        const errorMessage = document.getElementById('errorMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const adminKeyGroup = document.getElementById('adminKeyGroup');
 
-        // Show/hide admin key field based on email
+    // Show/hide admin key input based on email
+    if (emailInput) {
         emailInput.addEventListener('input', function() {
             const isAdminEmail = this.value.toLowerCase().includes('admin');
-            adminKeyGroup.style.display = isAdminEmail ? 'block' : 'none';
-            if (!isAdminEmail) {
-                document.getElementById('adminKey').value = ''; // Clear admin key if not admin email
+            if (adminKeyGroup) {
+                adminKeyGroup.style.display = isAdminEmail ? 'block' : 'none';
             }
         });
+    }
 
-        // Real-time password validation
+    // Real-time password validation
+    if (passwordInput) {
         passwordInput.addEventListener('input', function() {
             validatePassword(this.value);
         });
+    }
 
-        // Confirm password validation
+    // Confirm password validation
+    if (confirmPasswordInput) {
         confirmPasswordInput.addEventListener('input', function() {
             const password = passwordInput.value;
             const confirmPassword = this.value;
@@ -63,7 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.setCustomValidity('');
             }
         });
+    }
 
+    if (signupForm) {
         signupForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const password = passwordInput.value;
             const confirmPassword = confirmPasswordInput.value;
             const terms = document.getElementById('terms').checked;
-            const adminKey = document.getElementById('adminKey').value.trim();
+            const adminKey = document.getElementById('adminKey')?.value.trim();
 
             // Clear previous error
             showError('');
@@ -139,18 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to show error messages
 function showError(message) {
-    const errorElement = document.getElementById('errorMessage');
-    if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = message ? 'block' : 'none';
-        if (message) {
-            // Make the error message visible for a few seconds
-            errorElement.style.opacity = '1';
-            setTimeout(() => {
-                errorElement.style.opacity = '0';
-                // Optionally hide it completely after transition
-                setTimeout(() => { errorElement.style.display = 'none'; }, 500); 
-            }, 5000); // Show for 5 seconds
-        }
+    if (errorMessage) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
     }
 } 
