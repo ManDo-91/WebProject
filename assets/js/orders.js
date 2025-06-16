@@ -5,11 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '../../pages/auth/login.html';
+        return;
+    }
+
     const userEmail = currentUser.email ? currentUser.email.toLowerCase() : '';
     console.log('Orders Page Debug: Sending email in header:', userEmail);
 
     fetch('http://localhost:5000/api/orders', {
         headers: {
+            'Authorization': `Bearer ${token}`,
             'x-user-email': userEmail
         }
     })
@@ -19,33 +26,67 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('noOrders').style.display = 'block';
             return;
         }
-        let html = `<table><thead><tr>`;
-        if (currentUser.isAdmin) {
-            html += `<th>User</th>`;
-        }
-        html += `<th>Order ID</th><th>Items</th><th>Total</th><th>Status</th></tr></thead><tbody>`;
+
+        const ordersGrid = document.getElementById('ordersGrid');
         orders.forEach(order => {
-            html += `<tr>`;
-            if (currentUser.isAdmin) {
-                html += `<td>${order.user ? order.user.fullname + ' (' + order.user.email + ')' : 'N/A'}</td>`;
+            const orderDate = new Date(order.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const orderCard = document.createElement('div');
+            orderCard.className = 'order-card';
+            
+            let statusClass = 'status-pending';
+            switch(order.status.toLowerCase()) {
+                case 'processing':
+                    statusClass = 'status-processing';
+                    break;
+                case 'shipped':
+                    statusClass = 'status-shipped';
+                    break;
+                case 'delivered':
+                    statusClass = 'status-delivered';
+                    break;
+                case 'cancelled':
+                    statusClass = 'status-cancelled';
+                    break;
             }
-            html += `<td>${order._id}</td>`;
-            html += `<td class="order-items">`;
-            if (order.items && order.items.length) {
-                html += '<ul>';
-                order.items.forEach(item => {
-                    html += `<li>${item.product && item.product.name ? item.product.name : 'Product'} x ${item.quantity} ($${item.price})</li>`;
-                });
-                html += '</ul>';
-            } else {
-                html += 'No items';
-            }
-            html += `</td>`;
-            html += `<td>$${order.total.toFixed(2)}</td>`;
-            html += `<td class="status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>`;
-            html += `</tr>`;
+
+            orderCard.innerHTML = `
+                <div class="order-header">
+                    <span class="order-id">Order #${order._id.slice(-6)}</span>
+                    <span class="order-date">${orderDate}</span>
+                </div>
+                <div class="order-body">
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <img src="/${item.product?.image}" 
+                                     alt="/${item.product?.name || 'Product'}" 
+                                     class="item-image">
+                                <div class="item-details">
+                                    <div class="item-name">${item.product?.name || 'Product'}</div>
+                                    <div class="item-meta">
+                                        Quantity: ${item.quantity} × $${item.price.toFixed(2)}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total">Total: $${order.total.toFixed(2)}</div>
+                    <div class="order-status ${statusClass}">${order.status}</div>
+                </div>
+            `;
+
+            ordersGrid.appendChild(orderCard);
         });
-        html += `</tbody></table>`;
-        document.getElementById('ordersTableContainer').innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Error fetching orders:', error);
+        document.getElementById('noOrders').style.display = 'block';
     });
 }); 
